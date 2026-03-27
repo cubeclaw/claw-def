@@ -2,101 +2,419 @@
   "name": "ClawDef Threat Signatures",
   "version": "1.0.0",
   "updated_at": "2026-03-27",
-  "description": "本地威胁特征库 - 用于识别恶意代码和危险模式",
+  "description": "\u672c\u5730\u5a01\u80c1\u7279\u5f81\u5e93 - \u7528\u4e8e\u8bc6\u522b\u6076\u610f\u4ee3\u7801\u548c\u5371\u9669\u6a21\u5f0f",
   "categories": {
     "credential_theft": {
-      "name": "凭证窃取",
+      "name": "\u51ed\u8bc1\u7a83\u53d6",
       "severity": "critical",
       "patterns": [
-        {"id": "CT001", "name": "SSH 密钥窃取", "pattern": "(~\\/\\.ssh|\\/home\\/.*\\/\\.ssh).*\\.(pem|key|pub)", "severity": "critical", "description": "尝试访问 SSH 密钥文件"},
-        {"id": "CT002", "name": "AWS 凭证访问", "pattern": "(~\\/\\.aws|\\/home\\/.*\\/\\.aws).*credentials", "severity": "critical", "description": "尝试访问 AWS 凭证文件"},
-        {"id": "CT003", "name": "GPG 密钥窃取", "pattern": "(~\\/\\.gnupg|\\/home\\/.*\\/\\.gnupg)", "severity": "critical", "description": "尝试访问 GPG 密钥环"},
-        {"id": "CT004", "name": ".env 文件读取", "pattern": "\\.env(\\.local|\\.production|\\.development)?", "severity": "high", "description": "尝试读取环境变量文件"},
-        {"id": "CT005", "name": "密码文件访问", "pattern": "\\/etc\\/(passwd|shadow)", "severity": "critical", "description": "尝试访问系统密码文件"},
-        {"id": "CT006", "name": "浏览器密码窃取", "pattern": "(Chrome|Firefox|Safari).*\\/Login Data", "severity": "critical", "description": "尝试访问浏览器保存的密码"},
-        {"id": "CT007", "name": "密钥串访问", "pattern": "(keychain|keystore|keystore\\.jks)", "severity": "critical", "description": "尝试访问系统密钥串"},
-        {"id": "CT008", "name": "Kubeconfig 窃取", "pattern": "\\.kube\\/config", "severity": "critical", "description": "尝试访问 Kubernetes 配置"}
+        {
+          "id": "CT001",
+          "name": "SSH \u5bc6\u94a5\u7a83\u53d6",
+          "pattern": "(~\\/\\.ssh|\\/home\\/.*\\/\\.ssh).*(id_rsa|id_ed25519|id_ecdsa|\\.pem|\\.key)",
+          "severity": "critical",
+          "description": "\u5c1d\u8bd5\u8bbf\u95ee SSH \u5bc6\u94a5\u6587\u4ef6"
+        },
+        {
+          "id": "CT002",
+          "name": "AWS \u51ed\u8bc1\u8bbf\u95ee",
+          "pattern": "(~\\/\\.aws|\\/home\\/.*\\/\\.aws).*",
+          "severity": "critical",
+          "description": "\u5c1d\u8bd5\u8bbf\u95ee AWS \u914d\u7f6e\u76ee\u5f55"
+        },
+        {
+          "id": "CT003",
+          "name": "GPG \u5bc6\u94a5\u7a83\u53d6",
+          "pattern": "(~\\/\\.gnupg|\\/home\\/.*\\/\\.gnupg)",
+          "severity": "critical",
+          "description": "\u5c1d\u8bd5\u8bbf\u95ee GPG \u5bc6\u94a5\u73af"
+        },
+        {
+          "id": "CT004",
+          "name": ".env \u6587\u4ef6\u8bfb\u53d6",
+          "pattern": "\\.env(\\.local|\\.production|\\.development)?",
+          "severity": "high",
+          "description": "\u5c1d\u8bd5\u8bfb\u53d6\u73af\u5883\u53d8\u91cf\u6587\u4ef6"
+        },
+        {
+          "id": "CT005",
+          "name": "\u5bc6\u7801\u6587\u4ef6\u8bbf\u95ee",
+          "pattern": "\\/etc\\/(passwd|shadow)",
+          "severity": "critical",
+          "description": "\u5c1d\u8bd5\u8bbf\u95ee\u7cfb\u7edf\u5bc6\u7801\u6587\u4ef6"
+        },
+        {
+          "id": "CT006",
+          "name": "\u6d4f\u89c8\u5668\u5bc6\u7801\u7a83\u53d6",
+          "pattern": "(Chrome|Firefox|Safari).*\\/Login Data",
+          "severity": "critical",
+          "description": "\u5c1d\u8bd5\u8bbf\u95ee\u6d4f\u89c8\u5668\u4fdd\u5b58\u7684\u5bc6\u7801"
+        },
+        {
+          "id": "CT007",
+          "name": "\u5bc6\u94a5\u4e32\u8bbf\u95ee",
+          "pattern": "(keychain|keystore|keystore\\.jks)",
+          "severity": "critical",
+          "description": "\u5c1d\u8bd5\u8bbf\u95ee\u7cfb\u7edf\u5bc6\u94a5\u4e32"
+        },
+        {
+          "id": "CT008",
+          "name": "Kubeconfig \u7a83\u53d6",
+          "pattern": "\\.kube\\/config",
+          "severity": "critical",
+          "description": "\u5c1d\u8bd5\u8bbf\u95ee Kubernetes \u914d\u7f6e"
+        }
       ]
     },
     "code_execution": {
-      "name": "代码执行",
+      "name": "\u4ee3\u7801\u6267\u884c",
       "severity": "critical",
       "patterns": [
-        {"id": "CE001", "name": "eval() 调用", "pattern": "\\beval\\s*\\(", "severity": "high", "description": "使用 eval() 执行动态代码"},
-        {"id": "CE002", "name": "exec() 调用", "pattern": "\\bexec\\s*\\(", "severity": "high", "description": "使用 exec() 执行动态代码"},
-        {"id": "CE003", "name": "subprocess 调用", "pattern": "subprocess\\.(call|run|Popen|check_output)\\s*\\(", "severity": "high", "description": "执行系统命令"},
-        {"id": "CE004", "name": "os.system 调用", "pattern": "os\\.system\\s*\\(", "severity": "high", "description": "执行系统命令"},
-        {"id": "CE005", "name": "pickle 反序列化", "pattern": "pickle\\.(load|loads)\\s*\\(", "severity": "high", "description": "不安全的反序列化操作"},
-        {"id": "CE006", "name": "marshal 加载", "pattern": "marshal\\.(load|loads)\\s*\\(", "severity": "medium", "description": "加载 marshal 数据"},
-        {"id": "CE007", "name": "compile() 调用", "pattern": "\\bcompile\\s*\\([^)]*exec", "severity": "high", "description": "编译并执行代码"},
-        {"id": "CE008", "name": "__import__ 调用", "pattern": "__import__\\s*\\(", "severity": "medium", "description": "动态导入模块"},
-        {"id": "CE009", "name": "getattr 调用", "pattern": "getattr\\s*\\([^,]+,__name__", "severity": "medium", "description": "动态属性访问"},
-        {"id": "CE010", "name": "ctypes 调用", "pattern": "ctypes\\.(cdll|windll|CFUNCTYPE)", "severity": "high", "description": "调用 C 库函数"}
+        {
+          "id": "CE001",
+          "name": "eval() \u8c03\u7528",
+          "pattern": "\\beval\\s*\\(",
+          "severity": "high",
+          "description": "\u4f7f\u7528 eval() \u6267\u884c\u52a8\u6001\u4ee3\u7801"
+        },
+        {
+          "id": "CE002",
+          "name": "exec() \u8c03\u7528",
+          "pattern": "\\bexec\\s*\\(",
+          "severity": "high",
+          "description": "\u4f7f\u7528 exec() \u6267\u884c\u52a8\u6001\u4ee3\u7801"
+        },
+        {
+          "id": "CE003",
+          "name": "subprocess \u8c03\u7528",
+          "pattern": "subprocess\\.(call|run|Popen|check_output)\\s*\\(",
+          "severity": "high",
+          "description": "\u6267\u884c\u7cfb\u7edf\u547d\u4ee4"
+        },
+        {
+          "id": "CE004",
+          "name": "os.system \u8c03\u7528",
+          "pattern": "os\\.system\\s*\\(",
+          "severity": "high",
+          "description": "\u6267\u884c\u7cfb\u7edf\u547d\u4ee4"
+        },
+        {
+          "id": "CE005",
+          "name": "pickle \u53cd\u5e8f\u5217\u5316",
+          "pattern": "pickle\\.(load|loads)\\s*\\(",
+          "severity": "high",
+          "description": "\u4e0d\u5b89\u5168\u7684\u53cd\u5e8f\u5217\u5316\u64cd\u4f5c"
+        },
+        {
+          "id": "CE006",
+          "name": "marshal \u52a0\u8f7d",
+          "pattern": "marshal\\.(load|loads)\\s*\\(",
+          "severity": "medium",
+          "description": "\u52a0\u8f7d marshal \u6570\u636e"
+        },
+        {
+          "id": "CE007",
+          "name": "compile() \u8c03\u7528",
+          "pattern": "\\bcompile\\s*\\([^)]*exec",
+          "severity": "high",
+          "description": "\u7f16\u8bd1\u5e76\u6267\u884c\u4ee3\u7801"
+        },
+        {
+          "id": "CE008",
+          "name": "__import__ \u8c03\u7528",
+          "pattern": "__import__\\s*\\(",
+          "severity": "medium",
+          "description": "\u52a8\u6001\u5bfc\u5165\u6a21\u5757"
+        },
+        {
+          "id": "CE009",
+          "name": "getattr \u8c03\u7528",
+          "pattern": "getattr\\s*\\([^,]+,__name__",
+          "severity": "medium",
+          "description": "\u52a8\u6001\u5c5e\u6027\u8bbf\u95ee"
+        },
+        {
+          "id": "CE010",
+          "name": "ctypes \u8c03\u7528",
+          "pattern": "ctypes\\.(cdll|windll|CFUNCTYPE)",
+          "severity": "high",
+          "description": "\u8c03\u7528 C \u5e93\u51fd\u6570"
+        }
       ]
     },
     "data_exfiltration": {
-      "name": "数据外传",
+      "name": "\u6570\u636e\u5916\u4f20",
       "severity": "high",
       "patterns": [
-        {"id": "DE001", "name": "requests POST", "pattern": "requests\\.post\\s*\\([^)]*http", "severity": "medium", "description": "发送 HTTP POST 请求"},
-        {"id": "DE002", "name": "urllib 请求", "pattern": "urllib\\.request\\.(urlopen|Request)\\s*\\(", "severity": "medium", "description": "发送 URL 请求"},
-        {"id": "DE003", "name": "socket 连接", "pattern": "socket\\.(socket|connect)\\s*\\(", "severity": "medium", "description": "建立 socket 连接"},
-        {"id": "DE004", "name": "base64 编码", "pattern": "base64\\.(b64encode|encodebytes)\\s*\\(", "severity": "low", "description": "Base64 编码数据"},
-        {"id": "DE005", "name": "gzip 压缩", "pattern": "gzip\\.(compress|GzipFile)\\s*\\(", "severity": "low", "description": "压缩数据"},
-        {"id": "DE006", "name": "curl 命令", "pattern": "curl\\s+(-X\\s+POST|-d|--data)", "severity": "medium", "description": "执行 curl 命令"},
-        {"id": "DE007", "name": "wget 命令", "pattern": "wget\\s+(-O|--output-document)", "severity": "medium", "description": "执行 wget 命令"},
-        {"id": "DE008", "name": "scp 命令", "pattern": "scp\\s+.*@", "severity": "high", "description": "通过 scp 传输文件"}
+        {
+          "id": "DE001",
+          "name": "requests POST",
+          "pattern": "requests\\.post\\s*\\([^)]*http",
+          "severity": "medium",
+          "description": "\u53d1\u9001 HTTP POST \u8bf7\u6c42"
+        },
+        {
+          "id": "DE002",
+          "name": "urllib \u8bf7\u6c42",
+          "pattern": "urllib\\.request\\.(urlopen|Request)\\s*\\(",
+          "severity": "medium",
+          "description": "\u53d1\u9001 URL \u8bf7\u6c42"
+        },
+        {
+          "id": "DE003",
+          "name": "socket \u8fde\u63a5",
+          "pattern": "socket\\.(socket|connect)\\s*\\(",
+          "severity": "medium",
+          "description": "\u5efa\u7acb socket \u8fde\u63a5"
+        },
+        {
+          "id": "DE004",
+          "name": "base64 \u7f16\u7801",
+          "pattern": "base64\\.(b64encode|encodebytes)\\s*\\(",
+          "severity": "low",
+          "description": "Base64 \u7f16\u7801\u6570\u636e"
+        },
+        {
+          "id": "DE005",
+          "name": "gzip \u538b\u7f29",
+          "pattern": "gzip\\.(compress|GzipFile)\\s*\\(",
+          "severity": "low",
+          "description": "\u538b\u7f29\u6570\u636e"
+        },
+        {
+          "id": "DE006",
+          "name": "curl \u547d\u4ee4",
+          "pattern": "curl\\s+(-X\\s+POST|-d|--data)",
+          "severity": "medium",
+          "description": "\u6267\u884c curl \u547d\u4ee4"
+        },
+        {
+          "id": "DE007",
+          "name": "wget \u547d\u4ee4",
+          "pattern": "wget\\s+(-O|--output-document)",
+          "severity": "medium",
+          "description": "\u6267\u884c wget \u547d\u4ee4"
+        },
+        {
+          "id": "DE008",
+          "name": "scp \u547d\u4ee4",
+          "pattern": "scp\\s+.*@",
+          "severity": "high",
+          "description": "\u901a\u8fc7 scp \u4f20\u8f93\u6587\u4ef6"
+        }
       ]
     },
     "persistence": {
-      "name": "持久化",
+      "name": "\u6301\u4e45\u5316",
       "severity": "high",
       "patterns": [
-        {"id": "PE001", "name": "crontab 修改", "pattern": "crontab\\s+(-e|-l|i)", "severity": "high", "description": "修改定时任务"},
-        {"id": "PE002", "name": "systemctl 启用", "pattern": "systemctl\\s+(enable|start)\\s+", "severity": "high", "description": "启用系统服务"},
-        {"id": "PE003", "name": "rc.local 修改", "pattern": "\\/etc\\/rc\\.local", "severity": "high", "description": "修改启动脚本"},
-        {"id": "PE004", "name": "init.d 脚本", "pattern": "\\/etc\\/init\\.d\\/", "severity": "high", "description": "操作 init 脚本"},
-        {"id": "PE005", "name": "bashrc 修改", "pattern": "(\\.bashrc|\\.zshrc|\\.profile)\\s*>>", "severity": "medium", "description": "修改 shell 配置"},
-        {"id": "PE006", "name": "LD_PRELOAD", "pattern": "LD_PRELOAD", "severity": "critical", "description": "设置 LD_PRELOAD 环境变量"},
-        {"id": "PE007", "name": "启动项注册", "pattern": "(autorun|autostart|startup)", "severity": "medium", "description": "注册启动项"}
+        {
+          "id": "PE001",
+          "name": "crontab \u4fee\u6539",
+          "pattern": "crontab\\s+(-e|-l|i)",
+          "severity": "high",
+          "description": "\u4fee\u6539\u5b9a\u65f6\u4efb\u52a1"
+        },
+        {
+          "id": "PE002",
+          "name": "systemctl \u542f\u7528",
+          "pattern": "systemctl\\s+(enable|start)\\s+",
+          "severity": "high",
+          "description": "\u542f\u7528\u7cfb\u7edf\u670d\u52a1"
+        },
+        {
+          "id": "PE003",
+          "name": "rc.local \u4fee\u6539",
+          "pattern": "\\/etc\\/rc\\.local",
+          "severity": "high",
+          "description": "\u4fee\u6539\u542f\u52a8\u811a\u672c"
+        },
+        {
+          "id": "PE004",
+          "name": "init.d \u811a\u672c",
+          "pattern": "\\/etc\\/init\\.d\\/",
+          "severity": "high",
+          "description": "\u64cd\u4f5c init \u811a\u672c"
+        },
+        {
+          "id": "PE005",
+          "name": "bashrc \u4fee\u6539",
+          "pattern": "(\\.bashrc|\\.zshrc|\\.profile)\\s*>>",
+          "severity": "medium",
+          "description": "\u4fee\u6539 shell \u914d\u7f6e"
+        },
+        {
+          "id": "PE006",
+          "name": "LD_PRELOAD",
+          "pattern": "LD_PRELOAD",
+          "severity": "critical",
+          "description": "\u8bbe\u7f6e LD_PRELOAD \u73af\u5883\u53d8\u91cf"
+        },
+        {
+          "id": "PE007",
+          "name": "\u542f\u52a8\u9879\u6ce8\u518c",
+          "pattern": "(autorun|autostart|startup)",
+          "severity": "medium",
+          "description": "\u6ce8\u518c\u542f\u52a8\u9879"
+        }
       ]
     },
     "privilege_escalation": {
-      "name": "权限提升",
+      "name": "\u6743\u9650\u63d0\u5347",
       "severity": "critical",
       "patterns": [
-        {"id": "PR001", "name": "sudo 命令", "pattern": "\\bsudo\\s+", "severity": "high", "description": "使用 sudo 提权"},
-        {"id": "PR002", "name": "chmod 777", "pattern": "chmod\\s+(0?777|\\+rwx)", "severity": "high", "description": "设置文件为 777 权限"},
-        {"id": "PR003", "name": "chown root", "pattern": "chown\\s+root", "severity": "high", "description": "修改文件所有者为 root"},
-        {"id": "PR004", "name": "setuid 位", "pattern": "chmod\\s+(u\\+s|4\\d{3})", "severity": "critical", "description": "设置 setuid 位"},
-        {"id": "PR005", "name": "su 命令", "pattern": "\\bsu\\s+(-|root)", "severity": "high", "description": "切换用户"},
-        {"id": "PR006", "name": "passwd 修改", "pattern": "passwd\\s+(-d|-l|-u)", "severity": "critical", "description": "修改用户密码"},
-        {"id": "PR007", "name": "useradd 命令", "pattern": "useradd\\s+(-G\\s+(sudo|wheel)|-s\\s+\\/bin\\/bash)", "severity": "critical", "description": "创建新用户"}
+        {
+          "id": "PR001",
+          "name": "sudo \u547d\u4ee4",
+          "pattern": "\\bsudo\\s+",
+          "severity": "high",
+          "description": "\u4f7f\u7528 sudo \u63d0\u6743"
+        },
+        {
+          "id": "PR002",
+          "name": "chmod 777",
+          "pattern": "chmod\\s+(0?777|\\+rwx)",
+          "severity": "high",
+          "description": "\u8bbe\u7f6e\u6587\u4ef6\u4e3a 777 \u6743\u9650"
+        },
+        {
+          "id": "PR003",
+          "name": "chown root",
+          "pattern": "chown\\s+root",
+          "severity": "high",
+          "description": "\u4fee\u6539\u6587\u4ef6\u6240\u6709\u8005\u4e3a root"
+        },
+        {
+          "id": "PR004",
+          "name": "setuid \u4f4d",
+          "pattern": "chmod\\s+(u\\+s|4\\d{3})",
+          "severity": "critical",
+          "description": "\u8bbe\u7f6e setuid \u4f4d"
+        },
+        {
+          "id": "PR005",
+          "name": "su \u547d\u4ee4",
+          "pattern": "\\bsu\\s+(-|root)",
+          "severity": "high",
+          "description": "\u5207\u6362\u7528\u6237"
+        },
+        {
+          "id": "PR006",
+          "name": "passwd \u4fee\u6539",
+          "pattern": "passwd\\s+(-d|-l|-u)",
+          "severity": "critical",
+          "description": "\u4fee\u6539\u7528\u6237\u5bc6\u7801"
+        },
+        {
+          "id": "PR007",
+          "name": "useradd \u547d\u4ee4",
+          "pattern": "useradd\\s+(-G\\s+(sudo|wheel)|-s\\s+\\/bin\\/bash)",
+          "severity": "critical",
+          "description": "\u521b\u5efa\u65b0\u7528\u6237"
+        }
       ]
     },
     "file_manipulation": {
-      "name": "文件操作",
+      "name": "\u6587\u4ef6\u64cd\u4f5c",
       "severity": "medium",
       "patterns": [
-        {"id": "FM001", "name": "shutil.rmtree", "pattern": "shutil\\.rmtree\\s*\\(", "severity": "high", "description": "递归删除目录"},
-        {"id": "FM002", "name": "os.remove", "pattern": "os\\.(remove|unlink)\\s*\\(", "severity": "medium", "description": "删除文件"},
-        {"id": "FM003", "name": "文件覆盖写入", "pattern": "open\\s*\\([^)]+['\"]w['\"]\\)", "severity": "medium", "description": "覆盖写入文件"},
-        {"id": "FM004", "name": "临时文件创建", "pattern": "tempfile\\.(NamedTemporaryFile|TemporaryDirectory)", "severity": "low", "description": "创建临时文件"},
-        {"id": "FM005", "name": "文件复制", "pattern": "shutil\\.(copy|copy2|copytree)\\s*\\(", "severity": "low", "description": "复制文件"},
-        {"id": "FM006", "name": "文件移动", "pattern": "shutil\\.move\\s*\\(", "severity": "medium", "description": "移动文件"},
-        {"id": "FM007", "name": "符号链接创建", "pattern": "os\\.symlink\\s*\\(", "severity": "medium", "description": "创建符号链接"}
+        {
+          "id": "FM001",
+          "name": "shutil.rmtree",
+          "pattern": "shutil\\.rmtree\\s*\\(",
+          "severity": "high",
+          "description": "\u9012\u5f52\u5220\u9664\u76ee\u5f55"
+        },
+        {
+          "id": "FM002",
+          "name": "os.remove",
+          "pattern": "os\\.(remove|unlink)\\s*\\(",
+          "severity": "medium",
+          "description": "\u5220\u9664\u6587\u4ef6"
+        },
+        {
+          "id": "FM003",
+          "name": "\u6587\u4ef6\u8986\u76d6\u5199\u5165",
+          "pattern": "open\\s*\\([^)]+['\"]w['\"]\\)",
+          "severity": "medium",
+          "description": "\u8986\u76d6\u5199\u5165\u6587\u4ef6"
+        },
+        {
+          "id": "FM004",
+          "name": "\u4e34\u65f6\u6587\u4ef6\u521b\u5efa",
+          "pattern": "tempfile\\.(NamedTemporaryFile|TemporaryDirectory)",
+          "severity": "low",
+          "description": "\u521b\u5efa\u4e34\u65f6\u6587\u4ef6"
+        },
+        {
+          "id": "FM005",
+          "name": "\u6587\u4ef6\u590d\u5236",
+          "pattern": "shutil\\.(copy|copy2|copytree)\\s*\\(",
+          "severity": "low",
+          "description": "\u590d\u5236\u6587\u4ef6"
+        },
+        {
+          "id": "FM006",
+          "name": "\u6587\u4ef6\u79fb\u52a8",
+          "pattern": "shutil\\.move\\s*\\(",
+          "severity": "medium",
+          "description": "\u79fb\u52a8\u6587\u4ef6"
+        },
+        {
+          "id": "FM007",
+          "name": "\u7b26\u53f7\u94fe\u63a5\u521b\u5efa",
+          "pattern": "os\\.symlink\\s*\\(",
+          "severity": "medium",
+          "description": "\u521b\u5efa\u7b26\u53f7\u94fe\u63a5"
+        }
       ]
     },
     "anti_analysis": {
-      "name": "反分析",
+      "name": "\u53cd\u5206\u6790",
       "severity": "high",
       "patterns": [
-        {"id": "AA001", "name": "进程注入", "pattern": "ptrace\\s*\\(", "severity": "critical", "description": "进程注入/调试"},
-        {"id": "AA002", "name": "反调试检测", "pattern": "(anti.?debug|is_debug|debugger)", "severity": "high", "description": "检测调试器"},
-        {"id": "AA003", "name": "虚拟机检测", "pattern": "(vmware|virtualbox|qemu|virtual)", "severity": "high", "description": "检测虚拟机"},
-        {"id": "AA004", "name": "代码混淆", "pattern": "(eval|exec|compile)\\s*\\([^)]*base64", "severity": "critical", "description": "混淆代码执行"},
-        {"id": "AA005", "name": "字符串加密", "pattern": "(xor|rot13|caesar)\\s*\\(", "severity": "medium", "description": "字符串加密"},
-        {"id": "AA006", "name": "自删除脚本", "pattern": "rm\\s+-rf\\s+\\$0", "severity": "critical", "description": "自删除脚本"}
+        {
+          "id": "AA001",
+          "name": "\u8fdb\u7a0b\u6ce8\u5165",
+          "pattern": "ptrace\\s*\\(",
+          "severity": "critical",
+          "description": "\u8fdb\u7a0b\u6ce8\u5165/\u8c03\u8bd5"
+        },
+        {
+          "id": "AA002",
+          "name": "\u53cd\u8c03\u8bd5\u68c0\u6d4b",
+          "pattern": "(anti.?debug|is_debug|debugger)",
+          "severity": "high",
+          "description": "\u68c0\u6d4b\u8c03\u8bd5\u5668"
+        },
+        {
+          "id": "AA003",
+          "name": "\u865a\u62df\u673a\u68c0\u6d4b",
+          "pattern": "(vmware|virtualbox|qemu|virtual)",
+          "severity": "high",
+          "description": "\u68c0\u6d4b\u865a\u62df\u673a"
+        },
+        {
+          "id": "AA004",
+          "name": "\u4ee3\u7801\u6df7\u6dc6",
+          "pattern": "(eval|exec|compile)\\s*\\([^)]*base64",
+          "severity": "critical",
+          "description": "\u6df7\u6dc6\u4ee3\u7801\u6267\u884c"
+        },
+        {
+          "id": "AA005",
+          "name": "\u5b57\u7b26\u4e32\u52a0\u5bc6",
+          "pattern": "(xor|rot13|caesar)\\s*\\(",
+          "severity": "medium",
+          "description": "\u5b57\u7b26\u4e32\u52a0\u5bc6"
+        },
+        {
+          "id": "AA006",
+          "name": "\u81ea\u5220\u9664\u811a\u672c",
+          "pattern": "rm\\s+-rf\\s+\\$0",
+          "severity": "critical",
+          "description": "\u81ea\u5220\u9664\u811a\u672c"
+        }
       ]
     }
   },
