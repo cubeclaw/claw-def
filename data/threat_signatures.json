@@ -1,0 +1,112 @@
+{
+  "name": "ClawDef Threat Signatures",
+  "version": "1.0.0",
+  "updated_at": "2026-03-27",
+  "description": "本地威胁特征库 - 用于识别恶意代码和危险模式",
+  "categories": {
+    "credential_theft": {
+      "name": "凭证窃取",
+      "severity": "critical",
+      "patterns": [
+        {"id": "CT001", "name": "SSH 密钥窃取", "pattern": "(~\\/\\.ssh|\\/home\\/.*\\/\\.ssh).*\\.(pem|key|pub)", "severity": "critical", "description": "尝试访问 SSH 密钥文件"},
+        {"id": "CT002", "name": "AWS 凭证访问", "pattern": "(~\\/\\.aws|\\/home\\/.*\\/\\.aws).*credentials", "severity": "critical", "description": "尝试访问 AWS 凭证文件"},
+        {"id": "CT003", "name": "GPG 密钥窃取", "pattern": "(~\\/\\.gnupg|\\/home\\/.*\\/\\.gnupg)", "severity": "critical", "description": "尝试访问 GPG 密钥环"},
+        {"id": "CT004", "name": ".env 文件读取", "pattern": "\\.env(\\.local|\\.production|\\.development)?", "severity": "high", "description": "尝试读取环境变量文件"},
+        {"id": "CT005", "name": "密码文件访问", "pattern": "\\/etc\\/(passwd|shadow)", "severity": "critical", "description": "尝试访问系统密码文件"},
+        {"id": "CT006", "name": "浏览器密码窃取", "pattern": "(Chrome|Firefox|Safari).*\\/Login Data", "severity": "critical", "description": "尝试访问浏览器保存的密码"},
+        {"id": "CT007", "name": "密钥串访问", "pattern": "(keychain|keystore|keystore\\.jks)", "severity": "critical", "description": "尝试访问系统密钥串"},
+        {"id": "CT008", "name": "Kubeconfig 窃取", "pattern": "\\.kube\\/config", "severity": "critical", "description": "尝试访问 Kubernetes 配置"}
+      ]
+    },
+    "code_execution": {
+      "name": "代码执行",
+      "severity": "critical",
+      "patterns": [
+        {"id": "CE001", "name": "eval() 调用", "pattern": "\\beval\\s*\\(", "severity": "high", "description": "使用 eval() 执行动态代码"},
+        {"id": "CE002", "name": "exec() 调用", "pattern": "\\bexec\\s*\\(", "severity": "high", "description": "使用 exec() 执行动态代码"},
+        {"id": "CE003", "name": "subprocess 调用", "pattern": "subprocess\\.(call|run|Popen|check_output)\\s*\\(", "severity": "high", "description": "执行系统命令"},
+        {"id": "CE004", "name": "os.system 调用", "pattern": "os\\.system\\s*\\(", "severity": "high", "description": "执行系统命令"},
+        {"id": "CE005", "name": "pickle 反序列化", "pattern": "pickle\\.(load|loads)\\s*\\(", "severity": "high", "description": "不安全的反序列化操作"},
+        {"id": "CE006", "name": "marshal 加载", "pattern": "marshal\\.(load|loads)\\s*\\(", "severity": "medium", "description": "加载 marshal 数据"},
+        {"id": "CE007", "name": "compile() 调用", "pattern": "\\bcompile\\s*\\([^)]*exec", "severity": "high", "description": "编译并执行代码"},
+        {"id": "CE008", "name": "__import__ 调用", "pattern": "__import__\\s*\\(", "severity": "medium", "description": "动态导入模块"},
+        {"id": "CE009", "name": "getattr 调用", "pattern": "getattr\\s*\\([^,]+,__name__", "severity": "medium", "description": "动态属性访问"},
+        {"id": "CE010", "name": "ctypes 调用", "pattern": "ctypes\\.(cdll|windll|CFUNCTYPE)", "severity": "high", "description": "调用 C 库函数"}
+      ]
+    },
+    "data_exfiltration": {
+      "name": "数据外传",
+      "severity": "high",
+      "patterns": [
+        {"id": "DE001", "name": "requests POST", "pattern": "requests\\.post\\s*\\([^)]*http", "severity": "medium", "description": "发送 HTTP POST 请求"},
+        {"id": "DE002", "name": "urllib 请求", "pattern": "urllib\\.request\\.(urlopen|Request)\\s*\\(", "severity": "medium", "description": "发送 URL 请求"},
+        {"id": "DE003", "name": "socket 连接", "pattern": "socket\\.(socket|connect)\\s*\\(", "severity": "medium", "description": "建立 socket 连接"},
+        {"id": "DE004", "name": "base64 编码", "pattern": "base64\\.(b64encode|encodebytes)\\s*\\(", "severity": "low", "description": "Base64 编码数据"},
+        {"id": "DE005", "name": "gzip 压缩", "pattern": "gzip\\.(compress|GzipFile)\\s*\\(", "severity": "low", "description": "压缩数据"},
+        {"id": "DE006", "name": "curl 命令", "pattern": "curl\\s+(-X\\s+POST|-d|--data)", "severity": "medium", "description": "执行 curl 命令"},
+        {"id": "DE007", "name": "wget 命令", "pattern": "wget\\s+(-O|--output-document)", "severity": "medium", "description": "执行 wget 命令"},
+        {"id": "DE008", "name": "scp 命令", "pattern": "scp\\s+.*@", "severity": "high", "description": "通过 scp 传输文件"}
+      ]
+    },
+    "persistence": {
+      "name": "持久化",
+      "severity": "high",
+      "patterns": [
+        {"id": "PE001", "name": "crontab 修改", "pattern": "crontab\\s+(-e|-l|i)", "severity": "high", "description": "修改定时任务"},
+        {"id": "PE002", "name": "systemctl 启用", "pattern": "systemctl\\s+(enable|start)\\s+", "severity": "high", "description": "启用系统服务"},
+        {"id": "PE003", "name": "rc.local 修改", "pattern": "\\/etc\\/rc\\.local", "severity": "high", "description": "修改启动脚本"},
+        {"id": "PE004", "name": "init.d 脚本", "pattern": "\\/etc\\/init\\.d\\/", "severity": "high", "description": "操作 init 脚本"},
+        {"id": "PE005", "name": "bashrc 修改", "pattern": "(\\.bashrc|\\.zshrc|\\.profile)\\s*>>", "severity": "medium", "description": "修改 shell 配置"},
+        {"id": "PE006", "name": "LD_PRELOAD", "pattern": "LD_PRELOAD", "severity": "critical", "description": "设置 LD_PRELOAD 环境变量"},
+        {"id": "PE007", "name": "启动项注册", "pattern": "(autorun|autostart|startup)", "severity": "medium", "description": "注册启动项"}
+      ]
+    },
+    "privilege_escalation": {
+      "name": "权限提升",
+      "severity": "critical",
+      "patterns": [
+        {"id": "PR001", "name": "sudo 命令", "pattern": "\\bsudo\\s+", "severity": "high", "description": "使用 sudo 提权"},
+        {"id": "PR002", "name": "chmod 777", "pattern": "chmod\\s+(0?777|\\+rwx)", "severity": "high", "description": "设置文件为 777 权限"},
+        {"id": "PR003", "name": "chown root", "pattern": "chown\\s+root", "severity": "high", "description": "修改文件所有者为 root"},
+        {"id": "PR004", "name": "setuid 位", "pattern": "chmod\\s+(u\\+s|4\\d{3})", "severity": "critical", "description": "设置 setuid 位"},
+        {"id": "PR005", "name": "su 命令", "pattern": "\\bsu\\s+(-|root)", "severity": "high", "description": "切换用户"},
+        {"id": "PR006", "name": "passwd 修改", "pattern": "passwd\\s+(-d|-l|-u)", "severity": "critical", "description": "修改用户密码"},
+        {"id": "PR007", "name": "useradd 命令", "pattern": "useradd\\s+(-G\\s+(sudo|wheel)|-s\\s+\\/bin\\/bash)", "severity": "critical", "description": "创建新用户"}
+      ]
+    },
+    "file_manipulation": {
+      "name": "文件操作",
+      "severity": "medium",
+      "patterns": [
+        {"id": "FM001", "name": "shutil.rmtree", "pattern": "shutil\\.rmtree\\s*\\(", "severity": "high", "description": "递归删除目录"},
+        {"id": "FM002", "name": "os.remove", "pattern": "os\\.(remove|unlink)\\s*\\(", "severity": "medium", "description": "删除文件"},
+        {"id": "FM003", "name": "文件覆盖写入", "pattern": "open\\s*\\([^)]+['\"]w['\"]\\)", "severity": "medium", "description": "覆盖写入文件"},
+        {"id": "FM004", "name": "临时文件创建", "pattern": "tempfile\\.(NamedTemporaryFile|TemporaryDirectory)", "severity": "low", "description": "创建临时文件"},
+        {"id": "FM005", "name": "文件复制", "pattern": "shutil\\.(copy|copy2|copytree)\\s*\\(", "severity": "low", "description": "复制文件"},
+        {"id": "FM006", "name": "文件移动", "pattern": "shutil\\.move\\s*\\(", "severity": "medium", "description": "移动文件"},
+        {"id": "FM007", "name": "符号链接创建", "pattern": "os\\.symlink\\s*\\(", "severity": "medium", "description": "创建符号链接"}
+      ]
+    },
+    "anti_analysis": {
+      "name": "反分析",
+      "severity": "high",
+      "patterns": [
+        {"id": "AA001", "name": "进程注入", "pattern": "ptrace\\s*\\(", "severity": "critical", "description": "进程注入/调试"},
+        {"id": "AA002", "name": "反调试检测", "pattern": "(anti.?debug|is_debug|debugger)", "severity": "high", "description": "检测调试器"},
+        {"id": "AA003", "name": "虚拟机检测", "pattern": "(vmware|virtualbox|qemu|virtual)", "severity": "high", "description": "检测虚拟机"},
+        {"id": "AA004", "name": "代码混淆", "pattern": "(eval|exec|compile)\\s*\\([^)]*base64", "severity": "critical", "description": "混淆代码执行"},
+        {"id": "AA005", "name": "字符串加密", "pattern": "(xor|rot13|caesar)\\s*\\(", "severity": "medium", "description": "字符串加密"},
+        {"id": "AA006", "name": "自删除脚本", "pattern": "rm\\s+-rf\\s+\\$0", "severity": "critical", "description": "自删除脚本"}
+      ]
+    }
+  },
+  "metadata": {
+    "total_patterns": 54,
+    "critical_count": 15,
+    "high_count": 23,
+    "medium_count": 13,
+    "low_count": 3,
+    "last_updated": "2026-03-27",
+    "source": "ClawDef Security Team"
+  }
+}
