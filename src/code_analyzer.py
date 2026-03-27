@@ -274,3 +274,46 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+# VirusTotal API 集成 (简化版)
+class VirusTotalScanner:
+    """VirusTotal API 扫描器"""
+    
+    def __init__(self, api_key: Optional[str] = None):
+        self.api_key = api_key or os.environ.get('VT_API_KEY')
+        self.base_url = 'https://www.virustotal.com/api/v3'
+    
+    def scan_hash(self, file_hash: str) -> Dict:
+        """扫描文件哈希"""
+        if not self.api_key:
+            return {'error': 'No API key', 'available': False}
+        
+        try:
+            import urllib.request
+            req = urllib.request.Request(
+                f"{self.base_url}/files/{file_hash}",
+                headers={'x-apikey': self.api_key}
+            )
+            response = urllib.request.urlopen(req, timeout=10)
+            return json.loads(response.read().decode('utf-8'))
+        except Exception as e:
+            return {'error': str(e), 'available': False}
+    
+    def scan_url(self, url: str) -> Dict:
+        """扫描 URL"""
+        if not self.api_key:
+            return {'error': 'No API key', 'available': False}
+        
+        try:
+            import urllib.request
+            import base64
+            url_id = base64.urlsafe_b64encode(url.encode()).decode().strip('=')
+            req = urllib.request.Request(
+                f"{self.base_url}/urls/{url_id}",
+                headers={'x-apikey': self.api_key}
+            )
+            response = urllib.request.urlopen(req, timeout=10)
+            return json.loads(response.read().decode('utf-8'))
+        except Exception as e:
+            return {'error': str(e), 'available': False}
