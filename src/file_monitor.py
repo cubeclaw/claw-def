@@ -278,3 +278,202 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+# ============================================================
+# 实时监控模块 (inotify/Linux)
+# ============================================================
+
+class RealTimeFileMonitor(FileMonitor):
+    """实时文件监控器 (基于 inotify)"""
+    
+    def __init__(self, watch_paths: Optional[List[str]] = None):
+        super().__init__(watch_paths)
+        self.wm = None
+        self.notifier = None
+        self.running = False
+        
+        try:
+            import pyinotify
+            self.wm = pyinotify.WatchManager()
+            self.mask = (pyinotify.IN_ACCESS | pyinotify.IN_OPEN | 
+                        pyinotify.IN_CLOSE_NOWRITE | pyinotify.IN_CLOSE_WRITE)
+        except ImportError:
+            logger.warning("pyinotify 未安装，实时监控功能不可用")
+    
+    def add_watch(self, path: str, recursive: bool = False):
+        """添加监控路径"""
+        if not self.wm:
+            logger.error("inotify 不可用")
+            return
+        
+        import pyinotify
+        path = os.path.expanduser(path)
+        
+        if recursive:
+            for root, dirs, files in os.walk(path):
+                self.wm.add_watch(root, self.mask)
+        else:
+            self.wm.add_watch(path, self.mask)
+        
+        logger.info(f"添加监控：{path}")
+    
+    def on_event(self, event):
+        """处理 inotify 事件"""
+        file_path = event.pathname
+        op_map = {
+            'IN_ACCESS': 'read',
+            'IN_OPEN': 'open',
+            'IN_CLOSE_NOWRITE': 'close_read',
+            'IN_CLOSE_WRITE': 'close_write',
+        }
+        operation = op_map.get(event.maskname, 'unknown')
+        
+        # 检查是否敏感路径
+        result = self.check_access(file_path, operation)
+        
+        if result['allowed'] == False:
+            logger.warning(f"🚫 阻止访问：{file_path} [{operation}] - {result['level']}")
+    
+    def start(self, blocking: bool = True):
+        """启动实时监控"""
+        if not self.wm:
+            logger.error("无法启动：inotify 不可用")
+            return
+        
+        import pyinotify
+        self.notifier = pyinotify.Notifier(self.wm, self.on_event)
+        self.running = True
+        
+        logger.info("启动实时监控...")
+        
+        if blocking:
+            self.notifier.loop()
+        else:
+            import threading
+            thread = threading.Thread(target=self.notifier.loop)
+            thread.daemon = True
+            thread.start()
+    
+    def stop(self):
+        """停止监控"""
+        if self.notifier:
+            self.notifier.stop()
+            self.running = False
+            logger.info("停止实时监控")
+
+
+# ============================================================
+# 网络拦截增强 (基于 hosts 文件)
+# ============================================================
+
+class HostsFileBlocker:
+    """hosts 文件拦截器"""
+    
+    def __init__(self):
+        if os.name == 'nt':  # Windows
+            self.hosts_path = r'C:\Windows\System32\drivers\etc\hosts'
+        else:  # Linux/Mac
+            self.hosts_path = '/etc/hosts'
+        self.blocked_hosts = set()
+    
+    def add_block(self, host: str) -> bool:
+        """添加主机拦截"""
+        if host in self.blocked_hosts:
+            return False
+        
+        try:
+            # 检查是否已存在
+            with open(self.hosts_path, 'r') as f:
+                content = f.read()
+                if f'127.0.0.1 {host}' in content:
+                    return False
+            
+            # 追加拦截规则
+            with open(self.hosts_path, 'a') as f:
+                f.write(f'\n127.0.0.1 {host}  # Blocked by ClawDef\n')
+            
+            self.blocked_hosts.add(host)
+            logger.info(f"已拦截主机：{host}")
+            return True
+        except PermissionError:
+            logger.error(f"需要 root 权限修改 {self.hosts_path}")
+            return False
+        except Exception as e:
+            logger.error(f"修改 hosts 失败：{e}")
+            return False
+    
+    def remove_block(self, host: str) -> bool:
+        """移除拦截"""
+        try:
+            with open(self.hosts_path, 'r') as f:
+                lines = f.readlines()
+            
+            with open(self.hosts_path, 'w') as f:
+                for line in lines:
+                    if host not in line or 'ClawDef' not in line:
+                        f.write(line)
+            
+            self.blocked_hosts.discard(host)
+            logger.info(f"已移除拦截：{host}")
+            return True
+        except Exception as e:
+            logger.error(f"修改 hosts 失败：{e}")
+            return False
+    
+    def list_blocks(self) -> List[str]:
+        """列出所有拦截的主机"""
+        blocks = []
+        try:
+            with open(self.hosts_path, 'r') as f:
+                for line in f:
+                    if 'ClawDef' in line:
+                        parts = line.split()
+                        if len(parts) >= 2:
+                            blocks.append(parts[1])
+        except Exception as e:
+            logger.error(f"读取 hosts 失败：{e}")
+        return blocks
+
+
+# ============================================================
+# 进程级拦截 (基于 psutil)
+# ============================================================
+
+class ProcessAwareMonitor(FileMonitor):
+    """进程感知文件监控器"""
+    
+    def __init__(self):
+        super().__init__()
+        try:
+            import psutil
+            self.psutil = psutil
+        except ImportError:
+            logger.warning("psutil 未安装，进程追踪功能不可用")
+            self.psutil = None
+    
+    def get_process_info(self, pid: Optional[int] = None) -> Dict:
+        """获取进程信息"""
+        if not self.psutil:
+            return {'pid': pid, 'name': 'unknown', 'exe': 'unknown'}
+        
+        try:
+            if pid is None:
+                pid = self.psutil.Process().pid
+            
+            proc = self.psutil.Process(pid)
+            return {
+                'pid': pid,
+                'name': proc.name(),
+                'exe': proc.exe() if hasattr(proc, 'exe') else 'unknown',
+                'cmdline': ' '.join(proc.cmdline()) if hasattr(proc, 'cmdline') else 'unknown',
+            }
+        except Exception as e:
+            logger.debug(f"获取进程信息失败：{e}")
+            return {'pid': pid, 'name': 'unknown', 'exe': 'unknown'}
+    
+    def check_access_with_process(self, file_path: str, operation: str, pid: Optional[int] = None) -> Dict:
+        """带进程信息的文件访问检查"""
+        result = self.check_access(file_path, operation)
+        result['process'] = self.get_process_info(pid)
+        return result
