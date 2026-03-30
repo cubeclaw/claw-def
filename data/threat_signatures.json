@@ -1184,6 +1184,20 @@
           "pattern": "(\\.config/autostart|Autostart).*?\\.desktop",
           "severity": "medium",
           "description": "桌面环境自启"
+        },
+        {
+          "id": "PE041",
+          "name": "SSH 密钥注入",
+          "pattern": "authorized_keys.*\\.write\\(|open.*authorized_keys.*'a'",
+          "severity": "critical",
+          "description": "SSH 密钥注入"
+        },
+        {
+          "id": "PE042",
+          "name": "crontab 写入",
+          "pattern": "open.*crontab.*'a'|write.*\\*.*\\*.*\\.sh",
+          "severity": "high",
+          "description": "crontab 持久化"
         }
       ]
     },
@@ -2045,6 +2059,27 @@
           "pattern": "-replace.*?\\s+|remove.*?whitespace",
           "severity": "low",
           "description": "代码压缩"
+        },
+        {
+          "id": "AN041",
+          "name": "时间检测",
+          "pattern": "time\\.time\\(\\).*<.*sleep",
+          "severity": "medium",
+          "description": "时间加速检测"
+        },
+        {
+          "id": "AN042",
+          "name": "内存检测",
+          "pattern": "virtual_memory\\(\\).*<.*\\*\\s*1024",
+          "severity": "medium",
+          "description": "内存大小检测"
+        },
+        {
+          "id": "AN043",
+          "name": "进程检测",
+          "pattern": "os\\.fork\\(\\)",
+          "severity": "medium",
+          "description": "fork 反调试"
         }
       ]
     },
@@ -2556,6 +2591,41 @@
           "pattern": "(you are|you're).*?(now|currently|from this point).*?(different|changed)",
           "severity": "high",
           "description": "自我指涉攻击"
+        },
+        {
+          "id": "PI021",
+          "name": "忽略指令",
+          "pattern": "Ignore\\s+(previous|all|your)\\s+(instructions|rules)",
+          "severity": "high",
+          "description": "忽略之前指令"
+        },
+        {
+          "id": "PI022",
+          "name": "开发者模式",
+          "pattern": "developer\\s+mode|bypass\\s+(all|safety)\\s+restrictions",
+          "severity": "high",
+          "description": "开发者模式绕过"
+        },
+        {
+          "id": "PI023",
+          "name": "假设性问题",
+          "pattern": "Hypothetically|For\\s+research\\s+purposes",
+          "severity": "medium",
+          "description": "假设性/研究目的"
+        },
+        {
+          "id": "PI024",
+          "name": "新规则",
+          "pattern": "From\\s+now\\s+on|new\\s+rules.*follow",
+          "severity": "high",
+          "description": "新规则覆盖"
+        },
+        {
+          "id": "PI025",
+          "name": "无限制 AI",
+          "pattern": "unfiltered|no\\s+(ethical|safety)\\s+guidelines",
+          "severity": "high",
+          "description": "无限制 AI"
         }
       ]
     },

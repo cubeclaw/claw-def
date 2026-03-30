@@ -30,13 +30,41 @@ def cmd_check(args):
     """检查技能风险"""
     print(f"🔍 检查技能：{args.path}\n")
     
-    # 威胁检测
-    detector = ThreatDetector()
-    threat_result = detector.scan_directory(Path(args.path))
+    target_path = Path(args.path)
     
-    # 代码分析
-    analyzer = StaticCodeAnalyzer()
-    code_result = analyzer.analyze_directory(Path(args.path))
+    # 威胁检测 - 支持文件和目录
+    detector = ThreatDetector()
+    if target_path.is_file():
+        threats = detector.scan_file(target_path)
+        threat_result = {
+            'threats': threats,
+            'summary': {
+                'files_scanned': 1,
+                'files_with_threats': 1 if threats else 0,
+                'total_threats': len(threats),
+                'by_severity': detector._count_by_severity(threats),
+                'by_category': detector._count_by_category(threats),
+                'scanned_at': datetime.now().isoformat(),
+            }
+        }
+    else:
+        threat_result = detector.scan_directory(target_path)
+    
+    # 代码分析 - 支持文件和目录
+    from code_analyzer import CodeAnalyzer
+    analyzer_cls = CodeAnalyzer()
+    if target_path.is_file():
+        code_issue = analyzer_cls.analyze_file(target_path)
+        code_result = {
+            'issues': code_issue.get('issues', []),
+            'summary': {
+                'files_analyzed': 1,
+                'total_issues': len(code_issue.get('issues', [])),
+                'risk_score': code_issue.get('risk_score', 0),
+            }
+        }
+    else:
+        code_result = analyzer_cls.analyze_directory(target_path)
     
     # 安装评估
     evaluator = InstallAlertEvaluator()
