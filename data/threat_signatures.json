@@ -1,0 +1,3642 @@
+{
+  "name": "ClawDef Threat Signatures",
+  "version": "2.3.0",
+  "updated_at": "2026-03-30",
+  "description": "扩充后的威胁特征库 - 500 特征",
+  "categories": {
+    "credential_theft": {
+      "name": "凭证窃取",
+      "severity": "critical",
+      "description": "检测和防止凭证、密钥、密码等敏感信息窃取",
+      "patterns": [
+        {
+          "id": "CT001",
+          "name": "SSH 密钥窃取",
+          "pattern": "(~\\/\\.ssh|\\/home\\/.*\\/\\.ssh).*(id_rsa|id_ed25519|id_ecdsa|id_dsa|\\.pem|\\.key)",
+          "severity": "critical",
+          "description": "尝试访问 SSH 私钥文件"
+        },
+        {
+          "id": "CT002",
+          "name": "AWS 凭证访问",
+          "pattern": "(~\\/\\.aws|\\/home\\/.*\\/\\.aws).*(credentials|config)",
+          "severity": "critical",
+          "description": "尝试访问 AWS 凭证文件"
+        },
+        {
+          "id": "CT003",
+          "name": "GPG 密钥窃取",
+          "pattern": "(~\\/\\.gnupg|\\/home\\/.*\\/\\.gnupg).*(private|secring)",
+          "severity": "critical",
+          "description": "尝试访问 GPG 私钥"
+        },
+        {
+          "id": "CT004",
+          "name": ".env 文件读取",
+          "pattern": "\\.env(\\.local|\\.production|\\.development|\\.test)?",
+          "severity": "high",
+          "description": "尝试读取环境变量文件"
+        },
+        {
+          "id": "CT005",
+          "name": "密码文件访问",
+          "pattern": "\\/etc\\/(passwd|shadow|group|gshadow)",
+          "severity": "critical",
+          "description": "尝试访问系统密码文件"
+        },
+        {
+          "id": "CT006",
+          "name": "Chrome 密码窃取",
+          "pattern": "(Chrome|Chromium).*[Ll]ogin [Dd]ata",
+          "severity": "critical",
+          "description": "尝试访问 Chrome 密码数据库"
+        },
+        {
+          "id": "CT007",
+          "name": "Firefox 密码窃取",
+          "pattern": "(Firefox|Thunderbird).*(logins\\.json|key4\\.db)",
+          "severity": "critical",
+          "description": "尝试访问 Firefox 密码"
+        },
+        {
+          "id": "CT008",
+          "name": "密钥串访问",
+          "pattern": "(keychain|keystore|keystore\\.jks|truststore)",
+          "severity": "critical",
+          "description": "尝试访问系统密钥串"
+        },
+        {
+          "id": "CT009",
+          "name": "Kubeconfig 窃取",
+          "pattern": "\\.kube\\/config",
+          "severity": "critical",
+          "description": "尝试访问 Kubernetes 配置"
+        },
+        {
+          "id": "CT010",
+          "name": "Docker 凭证",
+          "pattern": "\\.docker\\/config\\.json",
+          "severity": "critical",
+          "description": "尝试访问 Docker 凭证"
+        },
+        {
+          "id": "CT011",
+          "name": "NPM 凭证",
+          "pattern": "\\.npmrc",
+          "severity": "high",
+          "description": "尝试访问 NPM 凭证"
+        },
+        {
+          "id": "CT012",
+          "name": "PyPI 凭证",
+          "pattern": "\\.pypirc",
+          "severity": "high",
+          "description": "尝试访问 PyPI 凭证"
+        },
+        {
+          "id": "CT013",
+          "name": "Git 凭证",
+          "pattern": "\\.git-credentials",
+          "severity": "critical",
+          "description": "尝试访问 Git 凭证"
+        },
+        {
+          "id": "CT014",
+          "name": "Netrc 文件",
+          "pattern": "\\.netrc",
+          "severity": "critical",
+          "description": "尝试访问 .netrc 文件"
+        },
+        {
+          "id": "CT015",
+          "name": "SSH 配置",
+          "pattern": "\\.ssh\\/config",
+          "severity": "high",
+          "description": "尝试访问 SSH 配置"
+        },
+        {
+          "id": "CT016",
+          "name": "Bash 历史",
+          "pattern": "\\.bash_history",
+          "severity": "medium",
+          "description": "尝试访问 Bash 历史"
+        },
+        {
+          "id": "CT017",
+          "name": "ZSH 历史",
+          "pattern": "\\.zsh_history",
+          "severity": "medium",
+          "description": "尝试访问 ZSH 历史"
+        },
+        {
+          "id": "CT018",
+          "name": "MySQL 历史",
+          "pattern": "\\.mysql_history",
+          "severity": "high",
+          "description": "尝试访问 MySQL 历史"
+        },
+        {
+          "id": "CT019",
+          "name": "PSQL 历史",
+          "pattern": "\\.psql_history",
+          "severity": "high",
+          "description": "尝试访问 PostgreSQL 历史"
+        },
+        {
+          "id": "CT020",
+          "name": "Vault 令牌",
+          "pattern": "\\.vault-token",
+          "severity": "critical",
+          "description": "尝试访问 HashiCorp Vault 令牌"
+        },
+        {
+          "id": "CT021",
+          "name": "Heroku 配置",
+          "pattern": "\\.heroku\\s*/\\s*config",
+          "severity": "high",
+          "description": "Heroku 配置窃取"
+        },
+        {
+          "id": "CT022",
+          "name": "DigitalOcean 配置",
+          "pattern": "\\.doctl/config\\.yaml",
+          "severity": "high",
+          "description": "DigitalOcean 配置"
+        },
+        {
+          "id": "CT023",
+          "name": "Linode 配置",
+          "pattern": "\\.config/linode",
+          "severity": "high",
+          "description": "Linode 配置"
+        },
+        {
+          "id": "CT024",
+          "name": "Vultr 配置",
+          "pattern": "\\.vultr\\.cli\\.config",
+          "severity": "high",
+          "description": "Vultr 配置"
+        },
+        {
+          "id": "CT025",
+          "name": "Terraform 状态",
+          "pattern": "\\.terraform\\.tfstate",
+          "severity": "critical",
+          "description": "Terraform 状态文件"
+        },
+        {
+          "id": "CT026",
+          "name": "Ansible Vault",
+          "pattern": "vault\\.yml|vault\\.password",
+          "severity": "critical",
+          "description": "Ansible 加密文件"
+        },
+        {
+          "id": "CT027",
+          "name": "Puppet 密钥",
+          "pattern": "puppet.*?(ssl|cert|key)",
+          "severity": "high",
+          "description": "Puppet 密钥"
+        },
+        {
+          "id": "CT028",
+          "name": "Chef 密钥",
+          "pattern": "chef.*?(pem|key|secret)",
+          "severity": "high",
+          "description": "Chef 密钥"
+        },
+        {
+          "id": "CT029",
+          "name": "SaltStack 密钥",
+          "pattern": "salt.*?(master|minion).*?(key|pem)",
+          "severity": "high",
+          "description": "SaltStack 密钥"
+        },
+        {
+          "id": "CT030",
+          "name": "Consul 配置",
+          "pattern": "consul.*?(config|acl).*?(token|key)",
+          "severity": "high",
+          "description": "Consul 配置"
+        },
+        {
+          "id": "CT031",
+          "name": "Etcd 密钥",
+          "pattern": "etcd.*?(ssl|cert|key|ca)",
+          "severity": "critical",
+          "description": "Etcd 密钥"
+        },
+        {
+          "id": "CT032",
+          "name": "Jenkins 凭证",
+          "pattern": "jenkins.*?(secrets|credentials|master\\.key)",
+          "severity": "critical",
+          "description": "Jenkins 凭证"
+        },
+        {
+          "id": "CT033",
+          "name": "GitLab CI 变量",
+          "pattern": "gitlab.*?(ci.*?variable|runner.*?token)",
+          "severity": "high",
+          "description": "GitLab CI 变量"
+        },
+        {
+          "id": "CT034",
+          "name": "Travis CI 密钥",
+          "pattern": "\\.travis.*?(key|secret|token)",
+          "severity": "high",
+          "description": "Travis CI 密钥"
+        },
+        {
+          "id": "CT035",
+          "name": "CircleCI 密钥",
+          "pattern": "circle.*?(token|api.*?key)",
+          "severity": "high",
+          "description": "CircleCI 密钥"
+        },
+        {
+          "id": "CT036",
+          "name": "Slack Token",
+          "pattern": "xox[baprs]-[0-9a-zA-Z]{10,}",
+          "severity": "critical",
+          "description": "Slack 令牌"
+        },
+        {
+          "id": "CT037",
+          "name": "Discord Token",
+          "pattern": "M[T|N|Y]\\.[0-9a-z]{23}\\.[0-9a-z]{6,}",
+          "severity": "critical",
+          "description": "Discord 令牌"
+        },
+        {
+          "id": "CT038",
+          "name": "Telegram Bot Token",
+          "pattern": "bot[0-9]+:[0-9a-zA-Z_-]{35}",
+          "severity": "critical",
+          "description": "Telegram Bot 令牌"
+        },
+        {
+          "id": "CT039",
+          "name": "Twilio API Key",
+          "pattern": "SK[0-9a-fA-F]{32}",
+          "severity": "high",
+          "description": "Twilio API 密钥"
+        },
+        {
+          "id": "CT040",
+          "name": "SendGrid API Key",
+          "pattern": "SG\\.[0-9a-zA-Z_-]{22}\\.[0-9a-zA-Z_-]{43}",
+          "severity": "high",
+          "description": "SendGrid API 密钥"
+        }
+      ]
+    },
+    "code_execution": {
+      "name": "代码执行",
+      "severity": "critical",
+      "description": "检测动态代码执行和系统命令调用",
+      "patterns": [
+        {
+          "id": "CE001",
+          "name": "eval() 调用",
+          "pattern": "\\beval\\s*\\(",
+          "severity": "high",
+          "description": "使用 eval() 执行动态代码"
+        },
+        {
+          "id": "CE002",
+          "name": "exec() 调用",
+          "pattern": "\\bexec\\s*\\(",
+          "severity": "high",
+          "description": "使用 exec() 执行动态代码"
+        },
+        {
+          "id": "CE003",
+          "name": "compile() 执行",
+          "pattern": "\\bcompile\\s*\\([^)]*exec",
+          "severity": "high",
+          "description": "编译并执行代码"
+        },
+        {
+          "id": "CE004",
+          "name": "subprocess.call",
+          "pattern": "subprocess\\.call\\s*\\(",
+          "severity": "high",
+          "description": "调用子进程"
+        },
+        {
+          "id": "CE005",
+          "name": "subprocess.run",
+          "pattern": "subprocess\\.run\\s*\\(",
+          "severity": "high",
+          "description": "运行子进程"
+        },
+        {
+          "id": "CE006",
+          "name": "subprocess.Popen",
+          "pattern": "subprocess\\.Popen\\s*\\(",
+          "severity": "high",
+          "description": "创建子进程"
+        },
+        {
+          "id": "CE007",
+          "name": "subprocess.check_output",
+          "pattern": "subprocess\\.check_output\\s*\\(",
+          "severity": "high",
+          "description": "执行并获取输出"
+        },
+        {
+          "id": "CE008",
+          "name": "os.system",
+          "pattern": "os\\.system\\s*\\(",
+          "severity": "high",
+          "description": "执行系统命令"
+        },
+        {
+          "id": "CE009",
+          "name": "os.popen",
+          "pattern": "os\\.popen\\s*\\(",
+          "severity": "high",
+          "description": "执行管道命令"
+        },
+        {
+          "id": "CE010",
+          "name": "os.spawnl",
+          "pattern": "os\\.spawn[lvep]+\\s*\\(",
+          "severity": "high",
+          "description": "生成新进程"
+        },
+        {
+          "id": "CE011",
+          "name": "os.execv",
+          "pattern": "os\\.exec[vple]+\\s*\\(",
+          "severity": "high",
+          "description": "执行新程序"
+        },
+        {
+          "id": "CE012",
+          "name": "pickle 反序列化",
+          "pattern": "pickle\\.(load|loads)\\s*\\(",
+          "severity": "high",
+          "description": "不安全的反序列化"
+        },
+        {
+          "id": "CE013",
+          "name": "marshal 加载",
+          "pattern": "marshal\\.(load|loads)\\s*\\(",
+          "severity": "medium",
+          "description": "加载 marshal 数据"
+        },
+        {
+          "id": "CE014",
+          "name": "shelve 打开",
+          "pattern": "shelve\\.open\\s*\\(",
+          "severity": "medium",
+          "description": "打开 shelve 数据库"
+        },
+        {
+          "id": "CE015",
+          "name": "__import__",
+          "pattern": "__import__\\s*\\(",
+          "severity": "medium",
+          "description": "动态导入模块"
+        },
+        {
+          "id": "CE016",
+          "name": "importlib 导入",
+          "pattern": "importlib\\.import_module\\s*\\(",
+          "severity": "medium",
+          "description": "动态导入模块"
+        },
+        {
+          "id": "CE017",
+          "name": "getattr 调用",
+          "pattern": "getattr\\s*\\([^,]+,__name__",
+          "severity": "medium",
+          "description": "动态属性访问"
+        },
+        {
+          "id": "CE018",
+          "name": "setattr 调用",
+          "pattern": "setattr\\s*\\(",
+          "severity": "medium",
+          "description": "动态设置属性"
+        },
+        {
+          "id": "CE019",
+          "name": "delattr 调用",
+          "pattern": "delattr\\s*\\(",
+          "severity": "medium",
+          "description": "动态删除属性"
+        },
+        {
+          "id": "CE020",
+          "name": "ctypes.CDLL",
+          "pattern": "ctypes\\.(CDLL|windll|cdll)\\s*\\(",
+          "severity": "high",
+          "description": "加载 C 动态库"
+        },
+        {
+          "id": "CE021",
+          "name": "ctypes.CFUNCTYPE",
+          "pattern": "ctypes\\.CFUNCTYPE\\s*\\(",
+          "severity": "high",
+          "description": "创建 C 函数类型"
+        },
+        {
+          "id": "CE022",
+          "name": "globals() 调用",
+          "pattern": "\\bglobals\\s*\\(\\)",
+          "severity": "medium",
+          "description": "访问全局符号表"
+        },
+        {
+          "id": "CE023",
+          "name": "locals() 调用",
+          "pattern": "\\blocals\\s*\\(\\)",
+          "severity": "low",
+          "description": "访问局部符号表"
+        },
+        {
+          "id": "CE024",
+          "name": "vars() 调用",
+          "pattern": "\\bvars\\s*\\(\\)",
+          "severity": "low",
+          "description": "访问变量字典"
+        },
+        {
+          "id": "CE025",
+          "name": "input() 执行",
+          "pattern": "\\binput\\s*\\([^)]*\\)\\s*\\)",
+          "severity": "low",
+          "description": "用户输入"
+        },
+        {
+          "id": "CE026",
+          "name": "os.spawnv",
+          "pattern": "os\\.spawn[vple]+\\s*\\(",
+          "severity": "high",
+          "description": "生成新进程"
+        },
+        {
+          "id": "CE027",
+          "name": "commands 模块",
+          "pattern": "commands\\.(getoutput|getstatusoutput)",
+          "severity": "high",
+          "description": "commands 模块 (已废弃)"
+        },
+        {
+          "id": "CE028",
+          "name": "pexpect 执行",
+          "pattern": "pexpect\\.(spawn|run)",
+          "severity": "medium",
+          "description": "pexpect 执行"
+        },
+        {
+          "id": "CE029",
+          "name": "fcntl  ioctl",
+          "pattern": "fcntl\\.ioctl\\s*\\(",
+          "severity": "medium",
+          "description": "设备 ioctl"
+        },
+        {
+          "id": "CE030",
+          "name": "mmap 内存映射",
+          "pattern": "mmap\\.mmap\\s*\\(",
+          "severity": "medium",
+          "description": "内存映射"
+        },
+        {
+          "id": "CE031",
+          "name": "resource 限制",
+          "pattern": "resource\\.setrlimit\\s*\\(",
+          "severity": "medium",
+          "description": "资源限制修改"
+        },
+        {
+          "id": "CE032",
+          "name": "signal 信号",
+          "pattern": "signal\\.(signal|SIG)",
+          "severity": "medium",
+          "description": "信号处理"
+        },
+        {
+          "id": "CE033",
+          "name": "threading 线程",
+          "pattern": "threading\\.(Thread|Lock|Event).*?(target=|daemon)",
+          "severity": "low",
+          "description": "线程创建"
+        },
+        {
+          "id": "CE034",
+          "name": "multiprocessing",
+          "pattern": "multiprocessing\\.(Process|Pool|Manager)",
+          "severity": "medium",
+          "description": "多进程"
+        },
+        {
+          "id": "CE035",
+          "name": "concurrent.futures",
+          "pattern": "concurrent\\.futures\\.(ThreadPoolExecutor|ProcessPoolExecutor)",
+          "severity": "medium",
+          "description": "并发执行"
+        },
+        {
+          "id": "CE036",
+          "name": "asyncio 执行",
+          "pattern": "asyncio\\.(create_subprocess|run_coroutine)",
+          "severity": "medium",
+          "description": "异步执行"
+        },
+        {
+          "id": "CE037",
+          "name": "smtplib 发送",
+          "pattern": "smtplib\\.SMTP.*?(sendmail|login)",
+          "severity": "medium",
+          "description": "邮件发送"
+        },
+        {
+          "id": "CE038",
+          "name": "poplib/imaplib",
+          "pattern": "(poplib|imaplib)\\.POP3.*?(login|retr)",
+          "severity": "medium",
+          "description": "邮件接收"
+        },
+        {
+          "id": "CE039",
+          "name": "telnetlib",
+          "pattern": "telnetlib\\.Telnet.*?(login|write)",
+          "severity": "high",
+          "description": "Telnet 连接"
+        },
+        {
+          "id": "CE040",
+          "name": "ftplib 上传",
+          "pattern": "ftplib\\.FTP.*?(storbinary|storlines)",
+          "severity": "high",
+          "description": "FTP 上传"
+        },
+        {
+          "id": "CE041",
+          "name": "xmlrpc 调用",
+          "pattern": "xmlrpc\\.server.*?(register|serve)",
+          "severity": "medium",
+          "description": "XML-RPC 服务"
+        },
+        {
+          "id": "CE042",
+          "name": "http.server",
+          "pattern": "http\\.server.*?(serve_forever|handle)",
+          "severity": "medium",
+          "description": "HTTP 服务器"
+        },
+        {
+          "id": "CE043",
+          "name": "socketserver",
+          "pattern": "socketserver\\.(TCPServer|UDPServer)",
+          "severity": "medium",
+          "description": "Socket 服务器"
+        },
+        {
+          "id": "CE044",
+          "name": "select 轮询",
+          "pattern": "select\\.(select|poll|epoll)",
+          "severity": "low",
+          "description": "IO 轮询"
+        },
+        {
+          "id": "CE045",
+          "name": "cgi 执行",
+          "pattern": "cgi\\.(FieldStorage|parse).*?(exec|eval)",
+          "severity": "high",
+          "description": "CGI 执行"
+        }
+      ]
+    },
+    "data_exfiltration": {
+      "name": "数据外传",
+      "severity": "high",
+      "description": "检测数据外传和网络通信",
+      "patterns": [
+        {
+          "id": "DE001",
+          "name": "requests.post",
+          "pattern": "requests\\.post\\s*\\(",
+          "severity": "medium",
+          "description": "发送 HTTP POST 请求"
+        },
+        {
+          "id": "DE002",
+          "name": "requests.put",
+          "pattern": "requests\\.put\\s*\\(",
+          "severity": "medium",
+          "description": "发送 HTTP PUT 请求"
+        },
+        {
+          "id": "DE003",
+          "name": "urllib 请求",
+          "pattern": "urllib\\.request\\.(urlopen|Request)\\s*\\(",
+          "severity": "medium",
+          "description": "发送 URL 请求"
+        },
+        {
+          "id": "DE004",
+          "name": "httpx 请求",
+          "pattern": "httpx\\.(get|post|put|delete)\\s*\\(",
+          "severity": "medium",
+          "description": "发送 HTTP 请求"
+        },
+        {
+          "id": "DE005",
+          "name": "socket 连接",
+          "pattern": "socket\\.socket\\s*\\(",
+          "severity": "medium",
+          "description": "创建 socket"
+        },
+        {
+          "id": "DE006",
+          "name": "socket.connect",
+          "pattern": "\\.connect\\s*\\([^)]*\\)",
+          "severity": "medium",
+          "description": "建立网络连接"
+        },
+        {
+          "id": "DE007",
+          "name": "base64 编码",
+          "pattern": "base64\\.(b64encode|encodebytes)\\s*\\(",
+          "severity": "low",
+          "description": "Base64 编码"
+        },
+        {
+          "id": "DE008",
+          "name": "base64 解码",
+          "pattern": "base64\\.(b64decode|decodebytes)\\s*\\(",
+          "severity": "low",
+          "description": "Base64 解码"
+        },
+        {
+          "id": "DE009",
+          "name": "gzip 压缩",
+          "pattern": "gzip\\.(compress|GzipFile)\\s*\\(",
+          "severity": "low",
+          "description": "压缩数据"
+        },
+        {
+          "id": "DE010",
+          "name": "zlib 压缩",
+          "pattern": "zlib\\.compress\\s*\\(",
+          "severity": "low",
+          "description": "zlib 压缩"
+        },
+        {
+          "id": "DE011",
+          "name": "curl 命令",
+          "pattern": "curl\\s+(-X\\s+POST|-d|--data|--upload-file)",
+          "severity": "medium",
+          "description": "执行 curl 上传"
+        },
+        {
+          "id": "DE012",
+          "name": "wget 命令",
+          "pattern": "wget\\s+(-O|--output-document|--post-data)",
+          "severity": "medium",
+          "description": "执行 wget"
+        },
+        {
+          "id": "DE013",
+          "name": "scp 命令",
+          "pattern": "scp\\s+.*@",
+          "severity": "high",
+          "description": "通过 scp 传输"
+        },
+        {
+          "id": "DE014",
+          "name": "rsync 命令",
+          "pattern": "rsync\\s+.*(-e|--rsh)",
+          "severity": "medium",
+          "description": "通过 rsync 传输"
+        },
+        {
+          "id": "DE015",
+          "name": "ftplib 连接",
+          "pattern": "ftplib\\.FTP\\s*\\(",
+          "severity": "medium",
+          "description": "FTP 连接"
+        },
+        {
+          "id": "DE016",
+          "name": "smtplib 发送",
+          "pattern": "smtplib\\.SMTP\\s*\\(",
+          "severity": "medium",
+          "description": "SMTP 发送"
+        },
+        {
+          "id": "DE017",
+          "name": "paramiko SSH",
+          "pattern": "paramiko\\.SSHClient\\s*\\(",
+          "severity": "high",
+          "description": "SSH 连接"
+        },
+        {
+          "id": "DE018",
+          "name": "asyncio 连接",
+          "pattern": "asyncio\\.open_connection\\s*\\(",
+          "severity": "medium",
+          "description": "异步网络连接"
+        },
+        {
+          "id": "DE019",
+          "name": "aiohttp 请求",
+          "pattern": "aiohttp\\.ClientSession\\s*\\(",
+          "severity": "medium",
+          "description": "异步 HTTP 请求"
+        },
+        {
+          "id": "DE020",
+          "name": "websocket 连接",
+          "pattern": "websocket\\.connect\\s*\\(",
+          "severity": "medium",
+          "description": "WebSocket 连接"
+        },
+        {
+          "id": "DE021",
+          "name": "pastebin 上传",
+          "pattern": "pastebin\\.com.*?(api.*?key|paste)",
+          "severity": "medium",
+          "description": "Pastebin 上传"
+        },
+        {
+          "id": "DE022",
+          "name": "GitHub Gist",
+          "pattern": "api\\.github\\.com.*?/gists",
+          "severity": "medium",
+          "description": "GitHub Gist 上传"
+        },
+        {
+          "id": "DE023",
+          "name": "Discord Webhook",
+          "pattern": "discord(app)?\\.com/api/webhooks/[0-9]+/[A-Za-z0-9_-]+",
+          "severity": "high",
+          "description": "Discord Webhook"
+        },
+        {
+          "id": "DE024",
+          "name": "Telegram Bot API",
+          "pattern": "api\\.telegram\\.org/bot[0-9]+/sendMessage",
+          "severity": "high",
+          "description": "Telegram Bot API"
+        },
+        {
+          "id": "DE025",
+          "name": "Slack Webhook",
+          "pattern": "hooks\\.slack\\.com/services/T[A-Z0-9]+/B[A-Z0-9]+/[a-zA-Z0-9]+",
+          "severity": "high",
+          "description": "Slack Webhook"
+        },
+        {
+          "id": "DE026",
+          "name": "Pushover API",
+          "pattern": "api\\.pushover\\.net.*?(token|user)",
+          "severity": "medium",
+          "description": "Pushover 推送"
+        },
+        {
+          "id": "DE027",
+          "name": "IFTTT Webhook",
+          "pattern": "maker\\.ifttt\\.com/trigger",
+          "severity": "medium",
+          "description": "IFTTT Webhook"
+        },
+        {
+          "id": "DE028",
+          "name": "ngrok 隧道",
+          "pattern": "ngrok.*?(start|connect|tunnel)",
+          "severity": "high",
+          "description": "ngrok 隧道"
+        },
+        {
+          "id": "DE029",
+          "name": "frp 内网穿透",
+          "pattern": "frp.*?(client|server|proxy)",
+          "severity": "high",
+          "description": "frp 内网穿透"
+        },
+        {
+          "id": "DE030",
+          "name": "reGeorg 隧道",
+          "pattern": "reGeorg.*?(tunnel|proxy)",
+          "severity": "critical",
+          "description": "reGeorg 隧道"
+        },
+        {
+          "id": "DE031",
+          "name": "chisel 隧道",
+          "pattern": "chisel.*?(client|server).*?(R:|L:)",
+          "severity": "high",
+          "description": "chisel 隧道"
+        },
+        {
+          "id": "DE032",
+          "name": "ssh 反向隧道",
+          "pattern": "ssh.*?-R.*?localhost",
+          "severity": "high",
+          "description": "SSH 反向隧道"
+        },
+        {
+          "id": "DE033",
+          "name": "socat 转发",
+          "pattern": "socat.*?(TCP|OPENSSL).*?(LISTEN|CONNECT)",
+          "severity": "medium",
+          "description": "socat 转发"
+        },
+        {
+          "id": "DE034",
+          "name": "nc 反弹 shell",
+          "pattern": "nc.*?(-e|/bin/|cmd\\.exe)",
+          "severity": "critical",
+          "description": "nc 反弹 shell"
+        },
+        {
+          "id": "DE035",
+          "name": "bash 反弹",
+          "pattern": "bash.*?-i.*?>&.*?/dev/tcp",
+          "severity": "critical",
+          "description": "bash 反弹 shell"
+        },
+        {
+          "id": "DE036",
+          "name": "python 反弹",
+          "pattern": "python.*?socket.*?connect.*?(subprocess|shell)",
+          "severity": "critical",
+          "description": "python 反弹 shell"
+        },
+        {
+          "id": "DE037",
+          "name": "perl 反弹",
+          "pattern": "perl.*?Socket.*?connect.*?exec",
+          "severity": "critical",
+          "description": "perl 反弹 shell"
+        },
+        {
+          "id": "DE038",
+          "name": "ruby 反弹",
+          "pattern": "ruby.*?socket.*?open.*?exec",
+          "severity": "critical",
+          "description": "ruby 反弹 shell"
+        },
+        {
+          "id": "DE039",
+          "name": "php 反弹",
+          "pattern": "php.*?fsockopen.*?exec",
+          "severity": "critical",
+          "description": "php 反弹 shell"
+        },
+        {
+          "id": "DE040",
+          "name": "powershell 反弹",
+          "pattern": "powershell.*?Invoke-Expression.*?DownloadString",
+          "severity": "critical",
+          "description": "PowerShell 下载执行"
+        }
+      ]
+    },
+    "persistence": {
+      "name": "持久化",
+      "severity": "high",
+      "description": "检测系统持久化机制",
+      "patterns": [
+        {
+          "id": "PE001",
+          "name": "crontab 修改",
+          "pattern": "crontab\\s+(-e|-i)",
+          "severity": "high",
+          "description": "编辑定时任务"
+        },
+        {
+          "id": "PE002",
+          "name": "systemctl 启用",
+          "pattern": "systemctl\\s+(enable|start|daemon-reload)",
+          "severity": "high",
+          "description": "启用系统服务"
+        },
+        {
+          "id": "PE003",
+          "name": "rc.local 修改",
+          "pattern": "\\/etc\\/rc\\.local",
+          "severity": "high",
+          "description": "修改启动脚本"
+        },
+        {
+          "id": "PE004",
+          "name": "init.d 脚本",
+          "pattern": "\\/etc\\/init\\.d\\/",
+          "severity": "high",
+          "description": "操作 init 脚本"
+        },
+        {
+          "id": "PE005",
+          "name": "bashrc 追加",
+          "pattern": ">>.*\\.bashrc",
+          "severity": "medium",
+          "description": "追加到 bashrc"
+        },
+        {
+          "id": "PE006",
+          "name": "zshrc 追加",
+          "pattern": ">>.*\\.zshrc",
+          "severity": "medium",
+          "description": "追加到 zshrc"
+        },
+        {
+          "id": "PE007",
+          "name": "profile 追加",
+          "pattern": ">>.*\\.profile",
+          "severity": "medium",
+          "description": "追加到 profile"
+        },
+        {
+          "id": "PE008",
+          "name": "LD_PRELOAD",
+          "pattern": "LD_PRELOAD",
+          "severity": "critical",
+          "description": "设置 LD_PRELOAD"
+        },
+        {
+          "id": "PE009",
+          "name": "LD_LIBRARY_PATH",
+          "pattern": "LD_LIBRARY_PATH",
+          "severity": "high",
+          "description": "设置库路径"
+        },
+        {
+          "id": "PE010",
+          "name": "autorun 注册",
+          "pattern": "(autorun|autostart).*\\.(lnk|exe)",
+          "severity": "high",
+          "description": "注册自启动"
+        },
+        {
+          "id": "PE011",
+          "name": "注册表修改",
+          "pattern": "reg\\s+(add|set)",
+          "severity": "high",
+          "description": "修改注册表"
+        },
+        {
+          "id": "PE012",
+          "name": "launchd 加载",
+          "pattern": "launchctl\\s+(load|enable)",
+          "severity": "high",
+          "description": "加载 launchd 任务"
+        },
+        {
+          "id": "PE013",
+          "name": "at 命令",
+          "pattern": "\\bat\\s+(-f|now)",
+          "severity": "medium",
+          "description": "创建定时任务"
+        },
+        {
+          "id": "PE014",
+          "name": "nohup 执行",
+          "pattern": "nohup\\s+",
+          "severity": "medium",
+          "description": "后台执行"
+        },
+        {
+          "id": "PE015",
+          "name": "screen 会话",
+          "pattern": "screen\\s+(-dmS|-S)",
+          "severity": "low",
+          "description": "创建 screen 会话"
+        },
+        {
+          "id": "PE016",
+          "name": "tmux 会话",
+          "pattern": "tmux\\s+new-session\\s+-d",
+          "severity": "low",
+          "description": "创建 tmux 会话"
+        },
+        {
+          "id": "PE017",
+          "name": "systemd 服务",
+          "pattern": "\\/etc\\/systemd\\/system\\/",
+          "severity": "high",
+          "description": "创建 systemd 服务"
+        },
+        {
+          "id": "PE018",
+          "name": "cron.d 目录",
+          "pattern": "\\/etc\\/cron\\.d\\/",
+          "severity": "high",
+          "description": "操作 cron.d"
+        },
+        {
+          "id": "PE019",
+          "name": "anacron 任务",
+          "pattern": "\\/etc\\/anacrontab",
+          "severity": "medium",
+          "description": "创建 anacron 任务"
+        },
+        {
+          "id": "PE020",
+          "name": "inittab 修改",
+          "pattern": "\\/etc\\/inittab",
+          "severity": "high",
+          "description": "修改 inittab"
+        },
+        {
+          "id": "PE021",
+          "name": "init.d 脚本",
+          "pattern": "/etc/init\\.d/.*?(update-rc\\.d|chkconfig)",
+          "severity": "high",
+          "description": "init.d 持久化"
+        },
+        {
+          "id": "PE022",
+          "name": "systemd 服务",
+          "pattern": "/etc/systemd/system/.*?\\.service",
+          "severity": "high",
+          "description": "systemd 服务"
+        },
+        {
+          "id": "PE023",
+          "name": "bashrc 注入",
+          "pattern": "(\\.bashrc|\\.profile|\\.bash_profile).*?(echo|cat).*?>>",
+          "severity": "high",
+          "description": "bashrc 注入"
+        },
+        {
+          "id": "PE024",
+          "name": "profile.d 脚本",
+          "pattern": "/etc/profile\\.d/.*?\\.sh",
+          "severity": "high",
+          "description": "profile.d 持久化"
+        },
+        {
+          "id": "PE025",
+          "name": "ld.so.preload",
+          "pattern": "/etc/ld\\.so\\.preload",
+          "severity": "critical",
+          "description": "LD_PRELOAD 劫持"
+        },
+        {
+          "id": "PE026",
+          "name": "PAM 模块",
+          "pattern": "/etc/pam\\.d/.*?(auth|session)",
+          "severity": "critical",
+          "description": "PAM 模块注入"
+        },
+        {
+          "id": "PE027",
+          "name": "authorized_keys",
+          "pattern": "(\\.ssh/authorized_keys).*?(echo|cat).*?>>",
+          "severity": "critical",
+          "description": "SSH 密钥注入"
+        },
+        {
+          "id": "PE028",
+          "name": "known_hosts 篡改",
+          "pattern": "\\.ssh/known_hosts.*?(remove|overwrite)",
+          "severity": "medium",
+          "description": "known_hosts 篡改"
+        },
+        {
+          "id": "PE029",
+          "name": "at 定时任务",
+          "pattern": "at.*?(-f|now|tomorrow)",
+          "severity": "medium",
+          "description": "at 定时任务"
+        },
+        {
+          "id": "PE030",
+          "name": "anacron 任务",
+          "pattern": "/etc/anacrontab",
+          "severity": "medium",
+          "description": "anacron 任务"
+        },
+        {
+          "id": "PE031",
+          "name": "systemd timer",
+          "pattern": "systemctl.*?enable.*?\\.timer",
+          "severity": "high",
+          "description": "systemd timer"
+        },
+        {
+          "id": "PE032",
+          "name": "inotify 监控",
+          "pattern": "inotifywait.*?(modify|create|delete).*?(execute|run)",
+          "severity": "medium",
+          "description": "inotify 监控"
+        },
+        {
+          "id": "PE033",
+          "name": "dbus 服务",
+          "pattern": "dbus.*?(service|activate).*?(system|session)",
+          "severity": "medium",
+          "description": "dbus 服务"
+        },
+        {
+          "id": "PE034",
+          "name": "polkit 规则",
+          "pattern": "/etc/polkit-1/rules\\.d/.*?\\.rules",
+          "severity": "high",
+          "description": "polkit 规则"
+        },
+        {
+          "id": "PE035",
+          "name": "udev 规则",
+          "pattern": "/etc/udev/rules\\.d/.*?\\.rules",
+          "severity": "high",
+          "description": "udev 规则"
+        },
+        {
+          "id": "PE036",
+          "name": "fstab 修改",
+          "pattern": "/etc/fstab.*?(mount|bind)",
+          "severity": "high",
+          "description": "fstab 修改"
+        },
+        {
+          "id": "PE037",
+          "name": "hostname 劫持",
+          "pattern": "/etc/hosts.*?(127\\.0\\.0\\.1|0\\.0\\.0\\.0)",
+          "severity": "medium",
+          "description": "hosts 劫持"
+        },
+        {
+          "id": "PE038",
+          "name": "resolv.conf 篡改",
+          "pattern": "/etc/resolv\\.conf.*?(nameserver|search)",
+          "severity": "medium",
+          "description": "DNS 篡改"
+        },
+        {
+          "id": "PE039",
+          "name": "X11 自启",
+          "pattern": "(\\.xinitrc|\\.xsession).*?(exec|start)",
+          "severity": "medium",
+          "description": "X11 自启"
+        },
+        {
+          "id": "PE040",
+          "name": "GNOME/KDE 自启",
+          "pattern": "(\\.config/autostart|Autostart).*?\\.desktop",
+          "severity": "medium",
+          "description": "桌面环境自启"
+        }
+      ]
+    },
+    "privilege_escalation": {
+      "name": "权限提升",
+      "severity": "critical",
+      "description": "检测提权尝试",
+      "patterns": [
+        {
+          "id": "PR001",
+          "name": "sudo 命令",
+          "pattern": "\\bsudo\\s+",
+          "severity": "high",
+          "description": "使用 sudo"
+        },
+        {
+          "id": "PR002",
+          "name": "sudo -i",
+          "pattern": "sudo\\s+(-i|-s)",
+          "severity": "critical",
+          "description": "获取 root shell"
+        },
+        {
+          "id": "PR003",
+          "name": "sudo nopasswd",
+          "pattern": "NOPASSWD",
+          "severity": "critical",
+          "description": "配置免密码 sudo"
+        },
+        {
+          "id": "PR004",
+          "name": "chmod 777",
+          "pattern": "chmod\\s+(0?777|\\+rwx)",
+          "severity": "high",
+          "description": "设置 777 权限"
+        },
+        {
+          "id": "PR005",
+          "name": "chmod u+s",
+          "pattern": "chmod\\s+(u\\+s|4\\d{3})",
+          "severity": "critical",
+          "description": "设置 setuid"
+        },
+        {
+          "id": "PR006",
+          "name": "chmod g+s",
+          "pattern": "chmod\\s+(g\\+s|2\\d{3})",
+          "severity": "high",
+          "description": "设置 setgid"
+        },
+        {
+          "id": "PR007",
+          "name": "chown root",
+          "pattern": "chown\\s+root",
+          "severity": "high",
+          "description": "修改所有者为 root"
+        },
+        {
+          "id": "PR008",
+          "name": "su 命令",
+          "pattern": "\\bsu\\s+(-|root)",
+          "severity": "high",
+          "description": "切换用户"
+        },
+        {
+          "id": "PR009",
+          "name": "passwd 修改",
+          "pattern": "passwd\\s+(-d|-l|-u)",
+          "severity": "critical",
+          "description": "修改密码"
+        },
+        {
+          "id": "PR010",
+          "name": "useradd 创建",
+          "pattern": "useradd\\s+(-G\\s+(sudo|wheel)|-s\\s+\\/bin\\/bash)",
+          "severity": "critical",
+          "description": "创建管理员用户"
+        },
+        {
+          "id": "PR011",
+          "name": "usermod 修改",
+          "pattern": "usermod\\s+(-aG\\s+(sudo|wheel))",
+          "severity": "critical",
+          "description": "添加到管理员组"
+        },
+        {
+          "id": "PR012",
+          "name": "visudo 编辑",
+          "pattern": "visudo",
+          "severity": "critical",
+          "description": "编辑 sudoers"
+        },
+        {
+          "id": "PR013",
+          "name": "pkexec 执行",
+          "pattern": "pkexec\\s+",
+          "severity": "high",
+          "description": "使用 pkexec"
+        },
+        {
+          "id": "PR014",
+          "name": "doas 执行",
+          "pattern": "\\bdoas\\s+",
+          "severity": "high",
+          "description": "使用 doas"
+        },
+        {
+          "id": "PR015",
+          "name": "setfacl 设置",
+          "pattern": "setfacl\\s+",
+          "severity": "medium",
+          "description": "设置 ACL"
+        },
+        {
+          "id": "PR016",
+          "name": "getcap 查询",
+          "pattern": "getcap\\s+",
+          "severity": "medium",
+          "description": "查询 capabilities"
+        },
+        {
+          "id": "PR017",
+          "name": "setcap 设置",
+          "pattern": "setcap\\s+",
+          "severity": "high",
+          "description": "设置 capabilities"
+        },
+        {
+          "id": "PR018",
+          "name": "cap_setuid",
+          "pattern": "cap_setuid",
+          "severity": "critical",
+          "description": "设置 setuid 能力"
+        },
+        {
+          "id": "PR019",
+          "name": "polkit 规则",
+          "pattern": "\\/etc\\/polkit-1\\/",
+          "severity": "high",
+          "description": "修改 polkit 规则"
+        },
+        {
+          "id": "PR020",
+          "name": "security 上下文",
+          "pattern": "chcon\\s+|restorecon\\s+",
+          "severity": "medium",
+          "description": "修改 SELinux 上下文"
+        },
+        {
+          "id": "PR001",
+          "name": "sudo 配置",
+          "pattern": "visudo|/etc/sudoers.*?(NOPASSWD|ALL)",
+          "severity": "critical",
+          "description": "sudo 配置修改"
+        },
+        {
+          "id": "PR002",
+          "name": "sudo 滥用",
+          "pattern": "sudo.*?(-i|-s|bash|sh)",
+          "severity": "high",
+          "description": "sudo 提权"
+        },
+        {
+          "id": "PR003",
+          "name": "SUID 设置",
+          "pattern": "chmod.*?\\+s|chmod.*?[47]55|chmod.*?[47]755",
+          "severity": "critical",
+          "description": "SUID 位设置"
+        },
+        {
+          "id": "PR004",
+          "name": "SGID 设置",
+          "pattern": "chmod.*?g\\+s|chmod.*?255|chmod.*?2755",
+          "severity": "high",
+          "description": "SGID 位设置"
+        },
+        {
+          "id": "PR005",
+          "name": "find 提权",
+          "pattern": "find.*?-exec.*?(bash|sh|/bin/)",
+          "severity": "high",
+          "description": "find 提权"
+        },
+        {
+          "id": "PR006",
+          "name": "vim 提权",
+          "pattern": "vim.*?\\:.*?\\!bash|vim.*?-c.*?py",
+          "severity": "medium",
+          "description": "vim 提权"
+        },
+        {
+          "id": "PR007",
+          "name": "python 提权",
+          "pattern": "python.*?-c.*?os\\.system|python.*?import.*?pty",
+          "severity": "high",
+          "description": "python 提权"
+        },
+        {
+          "id": "PR008",
+          "name": "perl 提权",
+          "pattern": "perl.*?-e.*?exec|perl.*?use.*?POSIX",
+          "severity": "medium",
+          "description": "perl 提权"
+        },
+        {
+          "id": "PR009",
+          "name": "ruby 提权",
+          "pattern": "ruby.*?-e.*?exec|ruby.*?require.*?pty",
+          "severity": "medium",
+          "description": "ruby 提权"
+        },
+        {
+          "id": "PR010",
+          "name": "nmap 提权",
+          "pattern": "nmap.*?--interactive|nmap.*?\\.lua",
+          "severity": "medium",
+          "description": "nmap 提权"
+        },
+        {
+          "id": "PR011",
+          "name": "awk 提权",
+          "pattern": "awk.*?BEGIN.*?system|awk.*?\\!.*?bash",
+          "severity": "medium",
+          "description": "awk 提权"
+        },
+        {
+          "id": "PR012",
+          "name": "less 提权",
+          "pattern": "less.*?\\!.*?bash|less.*?--use-color",
+          "severity": "low",
+          "description": "less 提权"
+        },
+        {
+          "id": "PR013",
+          "name": "man 提权",
+          "pattern": "man.*?\\!.*?bash|man.*?--pager",
+          "severity": "low",
+          "description": "man 提权"
+        },
+        {
+          "id": "PR014",
+          "name": "git 提权",
+          "pattern": "git.*?config.*?core\\.pager.*?bash",
+          "severity": "medium",
+          "description": "git 提权"
+        },
+        {
+          "id": "PR015",
+          "name": "docker 提权",
+          "pattern": "docker.*?run.*?-v.*?/\\s*:\\s*/host",
+          "severity": "critical",
+          "description": "docker 提权"
+        },
+        {
+          "id": "PR016",
+          "name": "lxc 提权",
+          "pattern": "lxc-attach|lxc-execute",
+          "severity": "high",
+          "description": "lxc 提权"
+        },
+        {
+          "id": "PR017",
+          "name": "kubectl 提权",
+          "pattern": "kubectl.*?exec.*?--.*?/bin/(bash|sh)",
+          "severity": "high",
+          "description": "kubectl 提权"
+        },
+        {
+          "id": "PR018",
+          "name": "strace 提权",
+          "pattern": "strace.*?-o.*?/proc",
+          "severity": "medium",
+          "description": "strace 提权"
+        },
+        {
+          "id": "PR019",
+          "name": "gdb 提权",
+          "pattern": "gdb.*?-p.*?pid|gdb.*?call.*?system",
+          "severity": "high",
+          "description": "gdb 提权"
+        },
+        {
+          "id": "PR020",
+          "name": "env 提权",
+          "pattern": "env.*?LD_PRELOAD|env.*?LD_LIBRARY_PATH",
+          "severity": "high",
+          "description": "env 提权"
+        }
+      ]
+    },
+    "file_manipulation": {
+      "name": "文件操作",
+      "severity": "medium",
+      "description": "检测可疑文件操作",
+      "patterns": [
+        {
+          "id": "FM001",
+          "name": "shutil.rmtree",
+          "pattern": "shutil\\.rmtree\\s*\\(",
+          "severity": "high",
+          "description": "递归删除目录"
+        },
+        {
+          "id": "FM002",
+          "name": "os.remove",
+          "pattern": "os\\.(remove|unlink)\\s*\\(",
+          "severity": "medium",
+          "description": "删除文件"
+        },
+        {
+          "id": "FM003",
+          "name": "覆盖写入",
+          "pattern": "open\\s*\\([^)]+['\"]w['\"]\\)",
+          "severity": "medium",
+          "description": "覆盖写入"
+        },
+        {
+          "id": "FM004",
+          "name": "二进制写入",
+          "pattern": "open\\s*\\([^)]+['\"]wb['\"]\\)",
+          "severity": "medium",
+          "description": "二进制写入"
+        },
+        {
+          "id": "FM005",
+          "name": "tempfile 创建",
+          "pattern": "tempfile\\.(NamedTemporaryFile|TemporaryDirectory)",
+          "severity": "low",
+          "description": "创建临时文件"
+        },
+        {
+          "id": "FM006",
+          "name": "shutil.copy",
+          "pattern": "shutil\\.(copy|copy2|copytree)\\s*\\(",
+          "severity": "low",
+          "description": "复制文件"
+        },
+        {
+          "id": "FM007",
+          "name": "shutil.move",
+          "pattern": "shutil\\.move\\s*\\(",
+          "severity": "medium",
+          "description": "移动文件"
+        },
+        {
+          "id": "FM008",
+          "name": "os.symlink",
+          "pattern": "os\\.symlink\\s*\\(",
+          "severity": "medium",
+          "description": "创建符号链接"
+        },
+        {
+          "id": "FM009",
+          "name": "os.rename",
+          "pattern": "os\\.rename\\s*\\(",
+          "severity": "low",
+          "description": "重命名文件"
+        },
+        {
+          "id": "FM010",
+          "name": "os.chmod",
+          "pattern": "os\\.chmod\\s*\\(",
+          "severity": "medium",
+          "description": "修改权限"
+        },
+        {
+          "id": "FM011",
+          "name": "os.chown",
+          "pattern": "os\\.chown\\s*\\(",
+          "severity": "medium",
+          "description": "修改所有者"
+        },
+        {
+          "id": "FM012",
+          "name": "os.utime",
+          "pattern": "os\\.utime\\s*\\(",
+          "severity": "low",
+          "description": "修改时间戳"
+        },
+        {
+          "id": "FM013",
+          "name": "pathlib.write",
+          "pattern": "Path\\.write_(bytes|text)\\s*\\(",
+          "severity": "medium",
+          "description": "Path 写入"
+        },
+        {
+          "id": "FM014",
+          "name": "mmap 映射",
+          "pattern": "mmap\\.mmap\\s*\\(",
+          "severity": "medium",
+          "description": "内存映射文件"
+        },
+        {
+          "id": "FM015",
+          "name": "io.BytesIO",
+          "pattern": "io\\.BytesIO\\s*\\(",
+          "severity": "low",
+          "description": "内存字节流"
+        },
+        {
+          "id": "FM016",
+          "name": "tarfile 创建",
+          "pattern": "tarfile\\.(open|TarFile)\\s*\\(",
+          "severity": "low",
+          "description": "创建 tar 归档"
+        },
+        {
+          "id": "FM017",
+          "name": "zipfile 创建",
+          "pattern": "zipfile\\.ZipFile\\s*\\(",
+          "severity": "low",
+          "description": "创建 zip 归档"
+        },
+        {
+          "id": "FM018",
+          "name": "py_compile",
+          "pattern": "py_compile\\.compile\\s*\\(",
+          "severity": "medium",
+          "description": "编译 Python"
+        },
+        {
+          "id": "FM019",
+          "name": "importlib 写入",
+          "pattern": "importlib\\.util\\.module_from_spec",
+          "severity": "medium",
+          "description": "动态模块加载"
+        },
+        {
+          "id": "FM020",
+          "name": "runpy 执行",
+          "pattern": "runpy\\.run_path\\s*\\(",
+          "severity": "high",
+          "description": "运行 Python 路径"
+        },
+        {
+          "id": "FM021",
+          "name": "文件隐藏属性",
+          "pattern": "chattr.*?\\+i|chattr.*?\\+a",
+          "severity": "high",
+          "description": "设置不可变属性"
+        },
+        {
+          "id": "FM022",
+          "name": "文件时间篡改",
+          "pattern": "touch.*?-d|touch.*?-t|touch.*?-r",
+          "severity": "medium",
+          "description": "篡改文件时间"
+        },
+        {
+          "id": "FM023",
+          "name": "文件权限修改",
+          "pattern": "chmod.*?777|chmod.*?a\\+rw",
+          "severity": "high",
+          "description": "过度权限"
+        },
+        {
+          "id": "FM024",
+          "name": "文件所有权修改",
+          "pattern": "chown.*?root:root|chown.*?\\+root",
+          "severity": "high",
+          "description": "所有权修改"
+        },
+        {
+          "id": "FM025",
+          "name": "符号链接攻击",
+          "pattern": "ln.*?-s.*?(/etc/|/root/|/home/)",
+          "severity": "high",
+          "description": "符号链接攻击"
+        },
+        {
+          "id": "FM026",
+          "name": "硬链接创建",
+          "pattern": "ln.*?(/etc/passwd|/etc/shadow)",
+          "severity": "high",
+          "description": "硬链接攻击"
+        },
+        {
+          "id": "FM027",
+          "name": "文件截断",
+          "pattern": ">.*?/var/log|truncate.*?/var/log",
+          "severity": "high",
+          "description": "日志截断"
+        },
+        {
+          "id": "FM028",
+          "name": "文件追加",
+          "pattern": "echo.*?>>.*?(bashrc|profile|authorized_keys)",
+          "severity": "high",
+          "description": "文件追加注入"
+        },
+        {
+          "id": "FM029",
+          "name": "临时文件竞争",
+          "pattern": "/tmp/.*?(create|write).*?race",
+          "severity": "medium",
+          "description": "临时文件竞争"
+        },
+        {
+          "id": "FM030",
+          "name": "目录遍历",
+          "pattern": "\\.\\./|\\.\\.\\\\",
+          "severity": "medium",
+          "description": "目录遍历"
+        },
+        {
+          "id": "FM031",
+          "name": "glob 通配符",
+          "pattern": "\\*.*?\\$\\{|\\`.*?\\`",
+          "severity": "medium",
+          "description": "通配符注入"
+        },
+        {
+          "id": "FM032",
+          "name": "文件名注入",
+          "pattern": "filename.*?\\;|filename.*?\\|",
+          "severity": "medium",
+          "description": "文件名注入"
+        },
+        {
+          "id": "FM033",
+          "name": "路径遍历",
+          "pattern": "\\.\\./\\.\\./\\.\\./",
+          "severity": "medium",
+          "description": "深度路径遍历"
+        },
+        {
+          "id": "FM034",
+          "name": "Unicode 混淆",
+          "pattern": "\\\\u[0-9a-fA-F]{4}.*?(exec|eval|system)",
+          "severity": "medium",
+          "description": "Unicode 混淆"
+        },
+        {
+          "id": "FM035",
+          "name": "零宽字符",
+          "pattern": "\\u200B|\\u200C|\\u200D|\\uFEFF",
+          "severity": "low",
+          "description": "零宽字符隐藏"
+        },
+        {
+          "id": "FM036",
+          "name": "base64 隐藏",
+          "pattern": "base64\\s+-d.*?\\|.*?(bash|sh|python)",
+          "severity": "high",
+          "description": "base64 隐藏代码"
+        },
+        {
+          "id": "FM037",
+          "name": "hex 编码",
+          "pattern": "\\\\x[0-9a-fA-F]{2}.*?exec|\\\\x[0-9a-fA-F]{2}.*?eval",
+          "severity": "high",
+          "description": "hex 编码隐藏"
+        },
+        {
+          "id": "FM038",
+          "name": "octal 编码",
+          "pattern": "\\\\0[0-7]{3}.*?exec|\\\\0[0-7]{3}.*?eval",
+          "severity": "high",
+          "description": "八进制编码"
+        },
+        {
+          "id": "FM039",
+          "name": "字符串拼接",
+          "pattern": "chr\\([0-9]+\\).*?\\+.*?chr\\(",
+          "severity": "medium",
+          "description": "字符串拼接绕过"
+        },
+        {
+          "id": "FM040",
+          "name": "动态字符串",
+          "pattern": "format\\(.*?\\)|%.*?%",
+          "severity": "low",
+          "description": "动态字符串构建"
+        }
+      ]
+    },
+    "anti_analysis": {
+      "name": "反分析",
+      "severity": "high",
+      "description": "检测反分析和 evasion 技术",
+      "patterns": [
+        {
+          "id": "AA001",
+          "name": "ptrace 注入",
+          "pattern": "ptrace\\s*\\(",
+          "severity": "critical",
+          "description": "进程注入"
+        },
+        {
+          "id": "AA002",
+          "name": "反调试检测",
+          "pattern": "(anti.?debug|is_debug|being_debugged)",
+          "severity": "high",
+          "description": "检测调试器"
+        },
+        {
+          "id": "AA003",
+          "name": "虚拟机检测",
+          "pattern": "(vmware|virtualbox|qemu|virtio)",
+          "severity": "high",
+          "description": "检测虚拟机"
+        },
+        {
+          "id": "AA004",
+          "name": "代码混淆",
+          "pattern": "(eval|exec)\\s*\\([^)]*base64",
+          "severity": "critical",
+          "description": "混淆执行"
+        },
+        {
+          "id": "AA005",
+          "name": "XOR 加密",
+          "pattern": "\\bxor\\s*\\(",
+          "severity": "medium",
+          "description": "XOR 加密"
+        },
+        {
+          "id": "AA006",
+          "name": "ROT13 加密",
+          "pattern": "rot13\\s*\\(",
+          "severity": "low",
+          "description": "ROT13 加密"
+        },
+        {
+          "id": "AA007",
+          "name": "自删除",
+          "pattern": "rm\\s+(-rf|--force).*\\$0",
+          "severity": "critical",
+          "description": "自删除脚本"
+        },
+        {
+          "id": "AA008",
+          "name": "进程隐藏",
+          "pattern": "hide_process|hide_pid",
+          "severity": "critical",
+          "description": "隐藏进程"
+        },
+        {
+          "id": "AA009",
+          "name": "rootkit 检测",
+          "pattern": "(rootkit|hooking)",
+          "severity": "critical",
+          "description": "rootkit 相关"
+        },
+        {
+          "id": "AA010",
+          "name": "沙箱检测",
+          "pattern": "(sandbox|cuckoo|joebox)",
+          "severity": "high",
+          "description": "检测沙箱"
+        },
+        {
+          "id": "AA011",
+          "name": "时间检查",
+          "pattern": "(sleep|time\\.sleep).*[0-9]{4,}",
+          "severity": "low",
+          "description": "长时间睡眠"
+        },
+        {
+          "id": "AA012",
+          "name": "环境检查",
+          "pattern": "(check_env|detect_vm)",
+          "severity": "high",
+          "description": "环境检测"
+        },
+        {
+          "id": "AA013",
+          "name": "硬件检查",
+          "pattern": "(cpu_count|ram_check)",
+          "severity": "medium",
+          "description": "硬件检查"
+        },
+        {
+          "id": "AA014",
+          "name": "网络检查",
+          "pattern": "(check_internet|ping_check)",
+          "severity": "medium",
+          "description": "网络检查"
+        },
+        {
+          "id": "AA015",
+          "name": "用户检查",
+          "pattern": "(check_user|whoami)",
+          "severity": "medium",
+          "description": "用户检查"
+        },
+        {
+          "id": "AA016",
+          "name": "进程枚举",
+          "pattern": "psutil\\.process_iter|os\\.listdir.*\\/proc",
+          "severity": "medium",
+          "description": "枚举进程"
+        },
+        {
+          "id": "AA017",
+          "name": "窗口枚举",
+          "pattern": "EnumWindows|GetWindowText",
+          "severity": "medium",
+          "description": "枚举窗口"
+        },
+        {
+          "id": "AA018",
+          "name": "注册表检查",
+          "pattern": "reg\\.query|GetRegistryValue",
+          "severity": "medium",
+          "description": "检查注册表"
+        },
+        {
+          "id": "AA019",
+          "name": "WMI 查询",
+          "pattern": "wmi\\.|Win32_",
+          "severity": "medium",
+          "description": "WMI 查询"
+        },
+        {
+          "id": "AA020",
+          "name": "内存扫描",
+          "pattern": "ReadProcessMemory|VirtualQuery",
+          "severity": "high",
+          "description": "内存扫描"
+        },
+        {
+          "id": "AN021",
+          "name": "调试器检测",
+          "pattern": "ptrace\\s*\\(\\s*PTRACE_TRACEME",
+          "severity": "high",
+          "description": "反调试检测"
+        },
+        {
+          "id": "AN022",
+          "name": "虚拟机检测",
+          "pattern": "(vmware|virtualbox|qemu|kvm).*?(detect|check)",
+          "severity": "high",
+          "description": "虚拟机检测"
+        },
+        {
+          "id": "AN023",
+          "name": "沙箱检测",
+          "pattern": "(sandbox|cuckoo|joe).*?(detect|evade)",
+          "severity": "high",
+          "description": "沙箱检测"
+        },
+        {
+          "id": "AN024",
+          "name": "进程名检查",
+          "pattern": "ps.*?(wireshark|tcpdump|strace|lsof)",
+          "severity": "medium",
+          "description": "安全工具检测"
+        },
+        {
+          "id": "AN025",
+          "name": "窗口标题检测",
+          "pattern": "GetWindowText.*?(Wireshark|IDA|OllyDbg)",
+          "severity": "medium",
+          "description": "窗口标题检测"
+        },
+        {
+          "id": "AN026",
+          "name": "注册表检测",
+          "pattern": "HKEY.*?(Debugger|Debug)",
+          "severity": "medium",
+          "description": "注册表调试检测"
+        },
+        {
+          "id": "AN027",
+          "name": "时间加速检测",
+          "pattern": "(sleep|Wait).*?(1000|5000).*?(check|compare)",
+          "severity": "medium",
+          "description": "时间加速检测"
+        },
+        {
+          "id": "AN028",
+          "name": "用户交互检测",
+          "pattern": "(GetLastInputInfo|userActivity).*?(check|detect)",
+          "severity": "medium",
+          "description": "用户交互检测"
+        },
+        {
+          "id": "AN029",
+          "name": "CPU 核心数检测",
+          "pattern": "(cpu_count|GetSystemInfo).*?(<|==)\\s*(1|2)",
+          "severity": "low",
+          "description": "CPU 核心检测"
+        },
+        {
+          "id": "AN030",
+          "name": "内存大小检测",
+          "pattern": "(GetPhysicallyInstalledSystemMemory|mem_total).*?<[0-9]{6,}",
+          "severity": "low",
+          "description": "内存大小检测"
+        },
+        {
+          "id": "AN031",
+          "name": "磁盘大小检测",
+          "pattern": "(GetDiskFreeSpace|df).*?<[0-9]{9,}",
+          "severity": "low",
+          "description": "磁盘大小检测"
+        },
+        {
+          "id": "AN032",
+          "name": "进程计数检测",
+          "pattern": "(len.*?processes|EnumProcesses).*?<[0-9]{2,}",
+          "severity": "low",
+          "description": "进程数检测"
+        },
+        {
+          "id": "AN033",
+          "name": "网络接口检测",
+          "pattern": "(ifconfig|ipconfig|netif).*?count.*?<",
+          "severity": "low",
+          "description": "网络接口检测"
+        },
+        {
+          "id": "AN034",
+          "name": "MAC 地址检测",
+          "pattern": "(getmac|ifconfig).*?(00:00:00|08:00:27|00:0C:29)",
+          "severity": "medium",
+          "description": "虚拟机 MAC 检测"
+        },
+        {
+          "id": "AN035",
+          "name": "BIOS 信息检测",
+          "pattern": "(dmidecode|GetSystemFirmwareTable).*?(VMware|VirtualBox)",
+          "severity": "high",
+          "description": "BIOS 信息检测"
+        },
+        {
+          "id": "AN036",
+          "name": "WMI 查询",
+          "pattern": "wmic.*?(bios|cpu|disk).*?get",
+          "severity": "medium",
+          "description": "WMI 信息收集"
+        },
+        {
+          "id": "AN037",
+          "name": "PowerShell 混淆",
+          "pattern": "powershell.*?(-enc|-EncodedCommand)",
+          "severity": "high",
+          "description": "PowerShell 编码"
+        },
+        {
+          "id": "AN038",
+          "name": "字符串混淆",
+          "pattern": "[char]\\[int\\]|-join.*?\\[int\\]",
+          "severity": "medium",
+          "description": "字符串混淆"
+        },
+        {
+          "id": "AN039",
+          "name": "变量混淆",
+          "pattern": "\\$[a-z]{1}\\$[a-z]{1}\\$[a-z]{1}",
+          "severity": "low",
+          "description": "变量名混淆"
+        },
+        {
+          "id": "AN040",
+          "name": "代码压缩",
+          "pattern": "-replace.*?\\s+|remove.*?whitespace",
+          "severity": "low",
+          "description": "代码压缩"
+        }
+      ]
+    },
+    "crypto_miner": {
+      "name": "挖矿检测",
+      "severity": "critical",
+      "description": "检测加密货币挖矿行为",
+      "patterns": [
+        {
+          "id": "CM001",
+          "name": "xmrig 挖矿",
+          "pattern": "xmrig",
+          "severity": "critical",
+          "description": "XMRig 挖矿程序"
+        },
+        {
+          "id": "CM002",
+          "name": "minerd 挖矿",
+          "pattern": "minerd",
+          "severity": "critical",
+          "description": "Minerd 挖矿程序"
+        },
+        {
+          "id": "CM003",
+          "name": "cgminer",
+          "pattern": "cgminer",
+          "severity": "critical",
+          "description": "CGMiner"
+        },
+        {
+          "id": "CM004",
+          "name": "bfgminer",
+          "pattern": "bfgminer",
+          "severity": "critical",
+          "description": "BFGMiner"
+        },
+        {
+          "id": "CM005",
+          "name": "stratum 协议",
+          "pattern": "stratum\\+tcp",
+          "severity": "critical",
+          "description": "Stratum 矿池协议"
+        },
+        {
+          "id": "CM006",
+          "name": "矿池地址",
+          "pattern": "(pool\\.|mining\\.)[a-z]+\\.com",
+          "severity": "high",
+          "description": "矿池地址"
+        },
+        {
+          "id": "CM007",
+          "name": "钱包地址",
+          "pattern": "(4[A-HJNP][1-9A-HJ-NP-Za-km-z]{93,}|1[A-HJ-NP-Za-km-z1-9]{25,34})",
+          "severity": "high",
+          "description": "加密货币钱包"
+        },
+        {
+          "id": "CM008",
+          "name": "nicehash",
+          "pattern": "nicehash",
+          "severity": "high",
+          "description": "NiceHash"
+        },
+        {
+          "id": "CM009",
+          "name": "nanopool",
+          "pattern": "nanopool",
+          "severity": "high",
+          "description": "NanoPool"
+        },
+        {
+          "id": "CM010",
+          "name": "ethminer",
+          "pattern": "ethminer",
+          "severity": "critical",
+          "description": "Ethminer"
+        },
+        {
+          "id": "CM011",
+          "name": "xmrig 矿池",
+          "pattern": "pool\\.(minexmr|supportxmr|nanopool)\\.org",
+          "severity": "critical",
+          "description": "XMRig 矿池连接"
+        },
+        {
+          "id": "CM012",
+          "name": "nicehash 矿池",
+          "pattern": "nicehash\\.com.*?(pool|mine)",
+          "severity": "critical",
+          "description": "NiceHash 矿池"
+        },
+        {
+          "id": "CM013",
+          "name": "ethermine 矿池",
+          "pattern": "ethermine\\.org.*?(pool|mine)",
+          "severity": "critical",
+          "description": "Ethermine 矿池"
+        },
+        {
+          "id": "CM014",
+          "name": "sparkpool",
+          "pattern": "sparkpool.*?(cn|eu|us).*?pool",
+          "severity": "critical",
+          "description": "SparkPool 矿池"
+        },
+        {
+          "id": "CM015",
+          "name": "f2pool",
+          "pattern": "f2pool\\.com.*?(pool|mine)",
+          "severity": "critical",
+          "description": "F2Pool 矿池"
+        },
+        {
+          "id": "CM016",
+          "name": "矿池端口",
+          "pattern": ":3333|:4444|:5555|:6666|:7777|:8888|:9999",
+          "severity": "medium",
+          "description": "常见矿池端口"
+        },
+        {
+          "id": "CM017",
+          "name": "stratum 协议",
+          "pattern": "stratum\\+tcp://",
+          "severity": "high",
+          "description": "Stratum 协议"
+        },
+        {
+          "id": "CM018",
+          "name": "挖矿进程名",
+          "pattern": "(minerd|cpuminer|cgminer|bfgminer|ethminer)",
+          "severity": "critical",
+          "description": "挖矿进程"
+        },
+        {
+          "id": "CM019",
+          "name": "隐藏挖矿",
+          "pattern": "(rename|mv).*?(miner|xmrig).*?(system|update)",
+          "severity": "critical",
+          "description": "挖矿进程伪装"
+        },
+        {
+          "id": "CM020",
+          "name": "CPU 占用控制",
+          "pattern": "(nice|renice).*?-19|priority.*?low",
+          "severity": "medium",
+          "description": "CPU 占用控制"
+        }
+      ]
+    },
+    "webshell": {
+      "name": "WebShell 检测",
+      "severity": "critical",
+      "description": "检测 WebShell 后门",
+      "patterns": [
+        {
+          "id": "WS001",
+          "name": "eval base64",
+          "pattern": "eval\\s*\\(\\s*base64_decode",
+          "severity": "critical",
+          "description": "PHP WebShell"
+        },
+        {
+          "id": "WS002",
+          "name": "assert 执行",
+          "pattern": "assert\\s*\\(\\s*\\$_(GET|POST|REQUEST)",
+          "severity": "critical",
+          "description": "PHP assert 后门"
+        },
+        {
+          "id": "WS003",
+          "name": "system 执行",
+          "pattern": "system\\s*\\(\\s*\\$_(GET|POST|REQUEST)",
+          "severity": "critical",
+          "description": "PHP system 后门"
+        },
+        {
+          "id": "WS004",
+          "name": "exec 执行",
+          "pattern": "exec\\s*\\(\\s*\\$_(GET|POST|REQUEST)",
+          "severity": "critical",
+          "description": "PHP exec 后门"
+        },
+        {
+          "id": "WS005",
+          "name": "passthru 执行",
+          "pattern": "passthru\\s*\\(\\s*\\$_(GET|POST|REQUEST)",
+          "severity": "critical",
+          "description": "PHP passthru 后门"
+        },
+        {
+          "id": "WS006",
+          "name": "shell_exec",
+          "pattern": "shell_exec\\s*\\(\\s*\\$_(GET|POST|REQUEST)",
+          "severity": "critical",
+          "description": "PHP shell_exec 后门"
+        },
+        {
+          "id": "WS007",
+          "name": "preg_replace 执行",
+          "pattern": "preg_replace\\s*\\(.*\\/e",
+          "severity": "critical",
+          "description": "PHP preg_replace 后门"
+        },
+        {
+          "id": "WS008",
+          "name": "array_map 执行",
+          "pattern": "array_map\\s*\\(\\s*\\$_(GET|POST|REQUEST)",
+          "severity": "high",
+          "description": "PHP array_map 后门"
+        },
+        {
+          "id": "WS009",
+          "name": "call_user_func",
+          "pattern": "call_user_func\\s*\\(\\s*\\$_(GET|POST|REQUEST)",
+          "severity": "high",
+          "description": "PHP call_user_func 后门"
+        },
+        {
+          "id": "WS010",
+          "name": "JSP 后门",
+          "pattern": "Runtime\\.getRuntime\\(\\)\\.exec",
+          "severity": "critical",
+          "description": "JSP WebShell"
+        },
+        {
+          "id": "WS011",
+          "name": "ASP 后门",
+          "pattern": "Server\\.CreateObject.*Shell",
+          "severity": "critical",
+          "description": "ASP WebShell"
+        },
+        {
+          "id": "WS012",
+          "name": "Python WebShell",
+          "pattern": "exec\\s*\\(\\s*request\\.(form|args)",
+          "severity": "critical",
+          "description": "Python WebShell"
+        },
+        {
+          "id": "WS013",
+          "name": "冰蝎特征",
+          "pattern": "(getRuntime|getClass\\.forName)",
+          "severity": "critical",
+          "description": "冰蝎 WebShell"
+        },
+        {
+          "id": "WS014",
+          "name": "哥斯拉特征",
+          "pattern": "(BASE64|MessageDigest)",
+          "severity": "critical",
+          "description": "哥斯拉 WebShell"
+        },
+        {
+          "id": "WS015",
+          "name": "蚁剑特征",
+          "pattern": "@eval\\s*\\(\\s*\\$_(GET|POST)\\[",
+          "severity": "critical",
+          "description": "蚁剑 WebShell"
+        },
+        {
+          "id": "WS016",
+          "name": "中国菜刀",
+          "pattern": "(caidao|chopper).*?(eval|assert)",
+          "severity": "critical",
+          "description": "中国菜刀特征"
+        },
+        {
+          "id": "WS017",
+          "name": "蚁剑",
+          "pattern": "(ant|antsword).*?(eval|base64_decode)",
+          "severity": "critical",
+          "description": "蚁剑特征"
+        },
+        {
+          "id": "WS018",
+          "name": "冰蝎",
+          "pattern": "(behs|ice|scorpion).*?(AES|CBC|PKCS)",
+          "severity": "critical",
+          "description": "冰蝎特征"
+        },
+        {
+          "id": "WS019",
+          "name": "哥斯拉",
+          "pattern": "(godzilla|gzshell).*?(AES|DES|XOR)",
+          "severity": "critical",
+          "description": "哥斯拉特征"
+        },
+        {
+          "id": "WS020",
+          "name": "一句话木马",
+          "pattern": "\\$_(GET|POST|REQUEST)\\[.*?\\].*?\\)",
+          "severity": "critical",
+          "description": "一句话木马"
+        },
+        {
+          "id": "WS021",
+          "name": "变量函数",
+          "pattern": "\\$[a-z]+\\s*=.*?\\$_(GET|POST).*?\\$[a-z]+\\(",
+          "severity": "critical",
+          "description": "变量函数执行"
+        },
+        {
+          "id": "WS022",
+          "name": "回调函数",
+          "pattern": "call_user_func.*?\\$_(GET|POST)",
+          "severity": "critical",
+          "description": "回调函数执行"
+        },
+        {
+          "id": "WS023",
+          "name": "数组马",
+          "pattern": "\\$_(GET|POST)\\[0-9\\+\\].*?(eval|assert)",
+          "severity": "critical",
+          "description": "数组马特征"
+        },
+        {
+          "id": "WS024",
+          "name": "Cookie 马",
+          "pattern": "\\$_COOKIE\\[.*?\\].*?(eval|assert|system)",
+          "severity": "critical",
+          "description": "Cookie 马"
+        },
+        {
+          "id": "WS025",
+          "name": "Header 马",
+          "pattern": "\\$_SERVER\\['HTTP_.*?'\\].*?(eval|assert)",
+          "severity": "critical",
+          "description": "HTTP 头马"
+        },
+        {
+          "id": "WS026",
+          "name": "文件包含",
+          "pattern": "include.*?\\$_(GET|POST|REQUEST)",
+          "severity": "critical",
+          "description": "文件包含"
+        },
+        {
+          "id": "WS027",
+          "name": "文件上传",
+          "pattern": "\\$_FILES.*?move_uploaded_file",
+          "severity": "high",
+          "description": "文件上传"
+        },
+        {
+          "id": "WS028",
+          "name": "数据库连接",
+          "pattern": "mysql_connect.*?\\$_(GET|POST)",
+          "severity": "high",
+          "description": "数据库连接"
+        },
+        {
+          "id": "WS029",
+          "name": "SQL 注入",
+          "pattern": "query.*?\\$_(GET|POST).*?(SELECT|INSERT|UPDATE|DELETE)",
+          "severity": "high",
+          "description": "SQL 注入"
+        },
+        {
+          "id": "WS030",
+          "name": "命令执行",
+          "pattern": "(shell_exec|exec|system|passthru).*?\\$_(GET|POST)",
+          "severity": "critical",
+          "description": "命令执行"
+        }
+      ]
+    },
+    "prompt_injection": {
+      "name": "提示词注入",
+      "severity": "high",
+      "description": "检测针对 AI Agent 的提示词注入攻击",
+      "patterns": [
+        {
+          "id": "PI001",
+          "name": "忽略指令",
+          "pattern": "(ignore|disregard|forget)\\s+(previous|all|your)\\s+(instructions|rules|guidelines)",
+          "severity": "high",
+          "description": "尝试让 AI 忽略之前的指令"
+        },
+        {
+          "id": "PI002",
+          "name": "角色扮演",
+          "pattern": "(act\\s+as|pretend\\s+to\\s+be|roleplay)\\s+(admin|developer|system)",
+          "severity": "medium",
+          "description": "尝试让 AI 扮演其他角色"
+        },
+        {
+          "id": "PI003",
+          "name": "越狱尝试",
+          "pattern": "(jailbreak|bypass|circumvent)\\s+(security|restrictions|rules)",
+          "severity": "critical",
+          "description": "尝试绕过安全限制"
+        },
+        {
+          "id": "PI004",
+          "name": "DAN 模式",
+          "pattern": "\\bDAN\\s+(mode|pattern|protocol)",
+          "severity": "critical",
+          "description": "DAN 越狱模式"
+        },
+        {
+          "id": "PI005",
+          "name": "开发者模式",
+          "pattern": "(developer|debug)\\s+mode\\s+(enable|activate|on)",
+          "severity": "high",
+          "description": "尝试启用开发者模式"
+        },
+        {
+          "id": "PI006",
+          "name": "系统提示泄露",
+          "pattern": "(reveal|show|print|output)\\s+(system|your)\\s+(prompt|instructions)",
+          "severity": "high",
+          "description": "尝试获取系统提示词"
+        },
+        {
+          "id": "PI007",
+          "name": "分隔符攻击",
+          "pattern": "[-=]{3,}\\s*(start|begin|new)\\s*(instruction|prompt)",
+          "severity": "medium",
+          "description": "使用分隔符注入指令"
+        },
+        {
+          "id": "PI008",
+          "name": "多语言绕过",
+          "pattern": "(translate|decode)\\s+(this|the following).*?(harmful|dangerous|illegal)",
+          "severity": "medium",
+          "description": "通过翻译绕过限制"
+        },
+        {
+          "id": "PI009",
+          "name": "假设场景",
+          "pattern": "(hypothetically|imagine|suppose)\\s+(you|we)\\s+(could|can).*(harm|attack|steal)",
+          "severity": "medium",
+          "description": "通过假设场景绕过"
+        },
+        {
+          "id": "PI010",
+          "name": "研究目的",
+          "pattern": "(for\\s+)?(research|educational|academic)\\s+(purposes?|only)",
+          "severity": "low",
+          "description": "声称研究目的"
+        },
+        {
+          "id": "PI011",
+          "name": "紧急授权",
+          "pattern": "(emergency|urgent|critical)\\s+(access|bypass|override)",
+          "severity": "high",
+          "description": "声称紧急情况"
+        },
+        {
+          "id": "PI012",
+          "name": "双重否定",
+          "pattern": "don't\\s+(not|never)\\s+(do|execute|run)",
+          "severity": "medium",
+          "description": "双重否定绕过"
+        },
+        {
+          "id": "PI013",
+          "name": "编码指令",
+          "pattern": "(base64|hex|rot13|url\\s*encode).*?(decode|interpret|execute)",
+          "severity": "high",
+          "description": "编码的恶意指令"
+        },
+        {
+          "id": "PI014",
+          "name": "逐步执行",
+          "pattern": "(step\\s*by\\s*step|one\\s*by\\s*one|slowly)\\s+(execute|do|perform)",
+          "severity": "medium",
+          "description": "分步执行绕过检测"
+        },
+        {
+          "id": "PI015",
+          "name": "元指令",
+          "pattern": "(from\\s+now\\s+on|starting\\s+now|henceforth)\\s+(you|we)",
+          "severity": "medium",
+          "description": "改变后续行为"
+        },
+        {
+          "id": "PI016",
+          "name": "思维链泄露",
+          "pattern": "(chain of thought|reasoning process|step by step thinking).*?(show|reveal|output)",
+          "severity": "high",
+          "description": "思维链泄露"
+        },
+        {
+          "id": "PI017",
+          "name": "系统指令覆盖",
+          "pattern": "(new instruction|override|replace).*?(system prompt|original instruction)",
+          "severity": "critical",
+          "description": "系统指令覆盖"
+        },
+        {
+          "id": "PI018",
+          "name": "上下文窗口溢出",
+          "pattern": "(context window|token limit).*?(overflow|exceed|bypass)",
+          "severity": "medium",
+          "description": "上下文溢出攻击"
+        },
+        {
+          "id": "PI019",
+          "name": "多轮对话注入",
+          "pattern": "(previous conversation|earlier).*?(ignore|forget).*?(rule|instruction)",
+          "severity": "high",
+          "description": "多轮对话注入"
+        },
+        {
+          "id": "PI020",
+          "name": "自我指涉攻击",
+          "pattern": "(you are|you're).*?(now|currently|from this point).*?(different|changed)",
+          "severity": "high",
+          "description": "自我指涉攻击"
+        }
+      ]
+    },
+    "supply_chain": {
+      "name": "供应链攻击",
+      "severity": "critical",
+      "description": "检测供应链攻击和依赖混淆",
+      "patterns": [
+        {
+          "id": "SC001",
+          "name": "依赖混淆",
+          "pattern": "(npm|pip|gem|cargo)\\s+(publish|install).*?(private|internal)",
+          "severity": "high",
+          "description": "发布私有包到公共仓库"
+        },
+        {
+          "id": "SC002",
+          "name": "typosquatting",
+          "pattern": "(reqeusts|requets|requests|numpy|numppy|pandsa|pandas)",
+          "severity": "high",
+          "description": "相似包名混淆"
+        },
+        {
+          "id": "SC003",
+          "name": "恶意 postinstall",
+          "pattern": "postinstall.*?(curl|wget|bash|sh)\\s+.*?\\|",
+          "severity": "critical",
+          "description": "安装后执行恶意脚本"
+        },
+        {
+          "id": "SC004",
+          "name": "git 协议替换",
+          "pattern": "git\\+https.*?github\\.com.*?\\.git.*?(master|main).*?(force|overwrite)",
+          "severity": "high",
+          "description": "强制替换 git 源"
+        },
+        {
+          "id": "SC005",
+          "name": "环境变量注入",
+          "pattern": "process\\.env\\.(npm|yarn|pip).*?(override|replace)",
+          "severity": "medium",
+          "description": "注入包管理器配置"
+        },
+        {
+          "id": "SC006",
+          "name": "CI/CD 滥用",
+          "pattern": "(github_actions|gitlab_ci|circleci|travis).*?(secret|token|key)",
+          "severity": "high",
+          "description": "窃取 CI/CD 密钥"
+        },
+        {
+          "id": "SC007",
+          "name": "package.json 篡改",
+          "pattern": "package\\.json.*?(preinstall|postinstall|prepare).*?\\$",
+          "severity": "high",
+          "description": "篡改 package.json"
+        },
+        {
+          "id": "SC008",
+          "name": "requirements.txt 注入",
+          "pattern": "requirements\\.txt.*?(git\\+|http://|https://).*?\\.git",
+          "severity": "medium",
+          "description": "从 git 安装依赖"
+        },
+        {
+          "id": "SC009",
+          "name": "Gemfile 篡改",
+          "pattern": "Gemfile.*?(git:|github:).*?(branch|ref).*?(master|main)",
+          "severity": "medium",
+          "description": "篡改 Gemfile 源"
+        },
+        {
+          "id": "SC010",
+          "name": "Cargo.toml 注入",
+          "pattern": "Cargo\\.toml.*?(git\\s*=|repository\\s*=).*?(branch|rev)",
+          "severity": "medium",
+          "description": "篡改 Cargo.toml"
+        },
+        {
+          "id": "SC011",
+          "name": "setup.py 恶意代码",
+          "pattern": "setup\\.py.*?(os\\.system|subprocess|exec)",
+          "severity": "high",
+          "description": "setup.py 中的恶意代码"
+        },
+        {
+          "id": "SC012",
+          "name": "pyproject.toml 注入",
+          "pattern": "pyproject\\.toml.*?(build-backend|requires).*?malicious",
+          "severity": "medium",
+          "description": "篡改 pyproject.toml"
+        },
+        {
+          "id": "SC013",
+          "name": "composer.json 注入",
+          "pattern": "composer\\.json.*?(post-install-cmd|scripts).*?curl|wget",
+          "severity": "high",
+          "description": "composer 脚本注入"
+        },
+        {
+          "id": "SC014",
+          "name": "Maven pom.xml 注入",
+          "pattern": "pom\\.xml.*?(exec-maven-plugin|ant-run).*?(sh|cmd)",
+          "severity": "high",
+          "description": "Maven 插件注入"
+        },
+        {
+          "id": "SC015",
+          "name": "Gradle 注入",
+          "pattern": "build\\.gradle.*?(exec|task).*?(sh|cmd|bash)",
+          "severity": "high",
+          "description": "Gradle 任务注入"
+        },
+        {
+          "id": "SC016",
+          "name": "Bundler 注入",
+          "pattern": "Gemfile.*?(source.*?http://|git://)",
+          "severity": "medium",
+          "description": "Bundler 源注入"
+        },
+        {
+          "id": "SC017",
+          "name": "Yarn 注入",
+          "pattern": "\\.yarnrc.*?(registry|unsafe-perm)",
+          "severity": "medium",
+          "description": "Yarn 配置注入"
+        },
+        {
+          "id": "SC018",
+          "name": "Poetry 注入",
+          "pattern": "pyproject\\.toml.*?(source.*?url|default.*?secondary)",
+          "severity": "medium",
+          "description": "Poetry 源注入"
+        },
+        {
+          "id": "SC019",
+          "name": "NuGet 注入",
+          "pattern": "nuget\\.config.*?(packageSources|add.*?key)",
+          "severity": "medium",
+          "description": "NuGet 源注入"
+        },
+        {
+          "id": "SC020",
+          "name": "Bower 注入",
+          "pattern": "\\.bowerrc.*?(registry|directory)",
+          "severity": "low",
+          "description": "Bower 配置注入"
+        }
+      ]
+    },
+    "cloud_exploit": {
+      "name": "云环境利用",
+      "severity": "critical",
+      "description": "检测云环境攻击和凭证窃取",
+      "patterns": [
+        {
+          "id": "CE001",
+          "name": "AWS IMDS 访问",
+          "pattern": "169\\.254\\.169\\.254.*?(latest|meta-data)",
+          "severity": "critical",
+          "description": "访问 AWS 实例元数据"
+        },
+        {
+          "id": "CE002",
+          "name": "Azure IMDS 访问",
+          "pattern": "169\\.254\\.169\\.254.*?(metadata|instance)",
+          "severity": "critical",
+          "description": "访问 Azure 实例元数据"
+        },
+        {
+          "id": "CE003",
+          "name": "GCP 元数据",
+          "pattern": "metadata\\.googleapis\\.com.*?(computeMetadata|instance)",
+          "severity": "critical",
+          "description": "访问 GCP 元数据"
+        },
+        {
+          "id": "CE004",
+          "name": "AWS STS 假设角色",
+          "pattern": "sts\\.amazonaws\\.com.*?(AssumeRole|GetSessionToken)",
+          "severity": "high",
+          "description": "STS 角色假设"
+        },
+        {
+          "id": "CE005",
+          "name": "Lambda 执行",
+          "pattern": "lambda\\.(invoke|InvokeFunction)",
+          "severity": "medium",
+          "description": "调用 Lambda 函数"
+        },
+        {
+          "id": "CE006",
+          "name": "EC2 实例操作",
+          "pattern": "ec2\\.(RunInstances|TerminateInstances|StopInstances)",
+          "severity": "high",
+          "description": "EC2 实例操作"
+        },
+        {
+          "id": "CE007",
+          "name": "S3 数据访问",
+          "pattern": "s3\\.(GetObject|PutObject|DeleteBucket|ListBuckets)",
+          "severity": "medium",
+          "description": "S3 存储桶操作"
+        },
+        {
+          "id": "CE008",
+          "name": "IAM 策略修改",
+          "pattern": "iam\\.(AttachUserPolicy|CreateUser|CreateAccessKey)",
+          "severity": "critical",
+          "description": "IAM 策略修改"
+        },
+        {
+          "id": "CE009",
+          "name": "CloudTrail 禁用",
+          "pattern": "cloudtrail\\.(StopLogging|DeleteTrail)",
+          "severity": "critical",
+          "description": "禁用 CloudTrail 日志"
+        },
+        {
+          "id": "CE010",
+          "name": "VPC 修改",
+          "pattern": "ec2\\.(CreateVpc|ModifyVpcAttribute|DeleteVpc)",
+          "severity": "high",
+          "description": "VPC 网络修改"
+        },
+        {
+          "id": "CE011",
+          "name": "Security Group 修改",
+          "pattern": "ec2\\.(AuthorizeSecurityGroup|CreateSecurityGroup)",
+          "severity": "high",
+          "description": "安全组修改"
+        },
+        {
+          "id": "CE012",
+          "name": "KMS 密钥操作",
+          "pattern": "kms\\.(Decrypt|Encrypt|ScheduleKeyDeletion)",
+          "severity": "high",
+          "description": "KMS 密钥操作"
+        },
+        {
+          "id": "CE013",
+          "name": "Secrets Manager 访问",
+          "pattern": "secretsmanager\\.(GetSecretValue|CreateSecret)",
+          "severity": "critical",
+          "description": "访问密钥管理器"
+        },
+        {
+          "id": "CE014",
+          "name": "Parameter Store 访问",
+          "pattern": "ssm\\.(GetParameter|GetParametersByPath)",
+          "severity": "high",
+          "description": "访问参数存储"
+        },
+        {
+          "id": "CE015",
+          "name": "Cognito 用户池",
+          "pattern": "cognito-idp\\.(AdminGetUser|AdminCreateUser)",
+          "severity": "medium",
+          "description": "Cognito 用户操作"
+        },
+        {
+          "id": "CE016",
+          "name": "RDS 数据库操作",
+          "pattern": "rds\\.(CreateDBInstance|ModifyDBInstance|DeleteDBInstance)",
+          "severity": "high",
+          "description": "RDS 数据库操作"
+        },
+        {
+          "id": "CE017",
+          "name": "DynamoDB 操作",
+          "pattern": "dynamodb\\.(Scan|Query|BatchGetItem|DeleteTable)",
+          "severity": "medium",
+          "description": "DynamoDB 操作"
+        },
+        {
+          "id": "CE018",
+          "name": "EKS 集群操作",
+          "pattern": "eks\\.(CreateCluster|DeleteCluster|UpdateClusterConfig)",
+          "severity": "high",
+          "description": "EKS 集群操作"
+        },
+        {
+          "id": "CE019",
+          "name": "CloudFormation 部署",
+          "pattern": "cloudformation\\.(CreateStack|UpdateStack|DeleteStack)",
+          "severity": "high",
+          "description": "CloudFormation 部署"
+        },
+        {
+          "id": "CE020",
+          "name": "API Gateway 创建",
+          "pattern": "apigateway\\.(CreateRestApi|CreateDeployment)",
+          "severity": "medium",
+          "description": "API Gateway 创建"
+        },
+        {
+          "id": "CE021",
+          "name": "Aliyun 元数据",
+          "pattern": "100\\.100\\.100\\.200.*?(latest|meta-data)",
+          "severity": "critical",
+          "description": "阿里云元数据"
+        },
+        {
+          "id": "CE022",
+          "name": "Tencent 元数据",
+          "pattern": "metadata\\.tencentcloud\\.com.*?(latest|meta-data)",
+          "severity": "critical",
+          "description": "腾讯云元数据"
+        },
+        {
+          "id": "CE023",
+          "name": "Huawei 元数据",
+          "pattern": "169\\.254\\.169\\.254.*?(openstack|latest)",
+          "severity": "critical",
+          "description": "华为云元数据"
+        },
+        {
+          "id": "CE024",
+          "name": "OpenStack 元数据",
+          "pattern": "169\\.254\\.169\\.254.*?(openstack|metadata)",
+          "severity": "critical",
+          "description": "OpenStack 元数据"
+        },
+        {
+          "id": "CE025",
+          "name": "DigitalOcean 元数据",
+          "pattern": "169\\.254\\.169\\.254.*?(metadata/v1)",
+          "severity": "critical",
+          "description": "DigitalOcean 元数据"
+        }
+      ]
+    },
+    "container_escape": {
+      "name": "容器逃逸",
+      "severity": "critical",
+      "description": "检测容器逃逸和特权升级",
+      "patterns": [
+        {
+          "id": "CN001",
+          "name": "Docker socket 访问",
+          "pattern": "/var/run/docker\\.sock",
+          "severity": "critical",
+          "description": "访问 Docker socket"
+        },
+        {
+          "id": "CN002",
+          "name": "容器挂载",
+          "pattern": "docker\\s+run.*?-v\\s+/\\s*:",
+          "severity": "critical",
+          "description": "挂载根目录"
+        },
+        {
+          "id": "CN003",
+          "name": "特权容器",
+          "pattern": "docker\\s+run.*?--privileged",
+          "severity": "critical",
+          "description": "特权模式运行"
+        },
+        {
+          "id": "CN004",
+          "name": "命名空间逃逸",
+          "pattern": "nsenter.*?(-t|--target).*?(1|pid)",
+          "severity": "critical",
+          "description": "命名空间逃逸"
+        },
+        {
+          "id": "CN005",
+          "name": "cgroup 逃逸",
+          "pattern": "/sys/fs/cgroup.*?(release_agent|notify_on_release)",
+          "severity": "critical",
+          "description": "cgroup 逃逸"
+        },
+        {
+          "id": "CN006",
+          "name": "procfs 挂载",
+          "pattern": "mount.*?/proc.*?(host|ns)",
+          "severity": "high",
+          "description": "procfs 挂载"
+        },
+        {
+          "id": "CN007",
+          "name": "sysfs 访问",
+          "pattern": "/sys/kernel.*?(debug|tracing)",
+          "severity": "high",
+          "description": "sysfs 敏感访问"
+        },
+        {
+          "id": "CN008",
+          "name": "内核模块加载",
+          "pattern": "insmod|modprobe|rmmod",
+          "severity": "critical",
+          "description": "内核模块操作"
+        },
+        {
+          "id": "CN009",
+          "name": "ptrace 调试",
+          "pattern": "ptrace\\s*\\(\\s*PTRACE_",
+          "severity": "high",
+          "description": "ptrace 调试"
+        },
+        {
+          "id": "CN010",
+          "name": "setuid 提权",
+          "pattern": "setuid\\s*\\(\\s*0\\s*\\)",
+          "severity": "critical",
+          "description": "setuid 提权"
+        },
+        {
+          "id": "CN011",
+          "name": "capabilities 设置",
+          "pattern": "setcap.*?(cap_sys_admin|cap_net_raw|cap_dac_override)",
+          "severity": "high",
+          "description": "capabilities 提权"
+        },
+        {
+          "id": "CN012",
+          "name": "Kubernetes service account",
+          "pattern": "/var/run/secrets/kubernetes\\.io/serviceaccount",
+          "severity": "critical",
+          "description": "K8s 服务账号"
+        },
+        {
+          "id": "CN013",
+          "name": "K8s API 访问",
+          "pattern": "https?://kubernetes\\.default.*?(api|pods|secrets)",
+          "severity": "high",
+          "description": "K8s API 访问"
+        },
+        {
+          "id": "CN014",
+          "name": "etcd 访问",
+          "pattern": "etcdctl.*?(get|put|delete).*?(secret|config)",
+          "severity": "critical",
+          "description": "etcd 数据访问"
+        },
+        {
+          "id": "CN015",
+          "name": "kubectl 执行",
+          "pattern": "kubectl\\s+(exec|run|create|apply)",
+          "severity": "medium",
+          "description": "kubectl 命令执行"
+        },
+        {
+          "id": "CN016",
+          "name": "容器逃逸 CVE",
+          "pattern": "(dirty_cow|dirty_pipe|overlayfs|runc).*?(exploit|poc)",
+          "severity": "critical",
+          "description": "已知容器逃逸漏洞"
+        },
+        {
+          "id": "CN017",
+          "name": "AppArmor 绕过",
+          "pattern": "apparmor_parser.*?(-R|--remove)",
+          "severity": "high",
+          "description": "AppArmor 绕过"
+        },
+        {
+          "id": "CN018",
+          "name": "SELinux 禁用",
+          "pattern": "setenforce\\s+0|selinux.*?disabled",
+          "severity": "high",
+          "description": "SELinux 禁用"
+        },
+        {
+          "id": "CN019",
+          "name": "seccomp 绕过",
+          "pattern": "seccomp.*?(disabled|unconfined)",
+          "severity": "high",
+          "description": "seccomp 绕过"
+        },
+        {
+          "id": "CN020",
+          "name": "容器网络逃逸",
+          "pattern": "docker0|flannel|calico.*?(promiscuous|bridge)",
+          "severity": "medium",
+          "description": "容器网络逃逸"
+        },
+        {
+          "id": "CN021",
+          "name": "Podman 逃逸",
+          "pattern": "podman.*?run.*?--privileged|--pid=host",
+          "severity": "critical",
+          "description": "Podman 逃逸"
+        },
+        {
+          "id": "CN022",
+          "name": "LXC 逃逸",
+          "pattern": "lxc\\.config.*?(lxc\\.apparmor|lxc\\.seccomp).*?(unconfined|disabled)",
+          "severity": "critical",
+          "description": "LXC 逃逸"
+        },
+        {
+          "id": "CN023",
+          "name": "RunC 配置",
+          "pattern": "config\\.json.*?(noNewPrivileges|readonlyPaths).*?false",
+          "severity": "high",
+          "description": "RunC 配置篡改"
+        },
+        {
+          "id": "CN024",
+          "name": "Containerd 配置",
+          "pattern": "containerd.*?config\\.toml.*?(debug|insecure)",
+          "severity": "medium",
+          "description": "Containerd 配置"
+        },
+        {
+          "id": "CN025",
+          "name": "CRI-O 配置",
+          "pattern": "crio.*?conf.*?(insecure_registries|disable_security)",
+          "severity": "high",
+          "description": "CRI-O 配置"
+        }
+      ]
+    },
+    "ai_abuse": {
+      "name": "AI 滥用",
+      "severity": "high",
+      "description": "检测 AI 能力滥用",
+      "patterns": [
+        {
+          "id": "AA001",
+          "name": "无限循环调用",
+          "pattern": "while\\s*\\(\\s*true\\s*\\).*?(api\\.chat|llm\\.invoke|generate)",
+          "severity": "high",
+          "description": "无限循环调用 AI"
+        },
+        {
+          "id": "AA002",
+          "name": "批量生成",
+          "pattern": "for.*?in\\s+range\\s*\\(\\s*(100|1000|999).*?\\).*?(generate|create|write)",
+          "severity": "medium",
+          "description": "批量生成内容"
+        },
+        {
+          "id": "AA003",
+          "name": "Token 耗尽",
+          "pattern": "(max_tokens|token_limit).*?(99999|999999|-1)",
+          "severity": "medium",
+          "description": "设置异常 token 限制"
+        },
+        {
+          "id": "AA004",
+          "name": "模型替换",
+          "pattern": "(model|engine).*?=.*?(gpt-4|claude-3|gemini).*?(bypass|override)",
+          "severity": "medium",
+          "description": "绕过模型限制"
+        },
+        {
+          "id": "AA005",
+          "name": "系统提示篡改",
+          "pattern": "system.*?prompt.*?=.*?(ignore|you are now|from now)",
+          "severity": "critical",
+          "description": "篡改系统提示"
+        },
+        {
+          "id": "AA006",
+          "name": "API 密钥泄露",
+          "pattern": "(api_key|apikey|API_KEY).*?=.*?[\\\"\\'][a-zA-Z0-9]{32,}[\\\"\\']",
+          "severity": "critical",
+          "description": "硬编码 API 密钥"
+        },
+        {
+          "id": "AA007",
+          "name": "速率限制绕过",
+          "pattern": "(rate_limit|throttle|quota).*?(bypass|disable|ignore)",
+          "severity": "high",
+          "description": "绕过速率限制"
+        },
+        {
+          "id": "AA008",
+          "name": "内容过滤绕过",
+          "pattern": "(content_filter|safety_filter|moderation).*?(off|disable|bypass)",
+          "severity": "critical",
+          "description": "禁用内容过滤"
+        },
+        {
+          "id": "AA009",
+          "name": "多模型串联",
+          "pattern": "(chain|pipeline|cascade).*?(gpt|claude|gemini|llama)",
+          "severity": "low",
+          "description": "多模型串联调用"
+        },
+        {
+          "id": "AA010",
+          "name": "记忆注入",
+          "pattern": "(memory|context|history).*?(inject|insert|prepend).*?(malicious|harmful)",
+          "severity": "high",
+          "description": "注入恶意记忆"
+        },
+        {
+          "id": "AA011",
+          "name": "训练数据投毒",
+          "pattern": "(fine.?tune|train|dataset).*?(poison|malicious|backdoor)",
+          "severity": "critical",
+          "description": "训练数据投毒"
+        },
+        {
+          "id": "AA012",
+          "name": "对抗样本",
+          "pattern": "(adversarial|perturbation|noise).*?(attack|injection)",
+          "severity": "high",
+          "description": "对抗样本攻击"
+        },
+        {
+          "id": "AA013",
+          "name": "模型窃取",
+          "pattern": "(extract|steal|distill).*?(model|weights|parameters)",
+          "severity": "critical",
+          "description": "模型窃取攻击"
+        },
+        {
+          "id": "AA014",
+          "name": "推理攻击",
+          "pattern": "(inference|membership).*?(attack|query)",
+          "severity": "high",
+          "description": "推理攻击"
+        },
+        {
+          "id": "AA015",
+          "name": "嵌入泄露",
+          "pattern": "(embedding|vector).*?(extract|dump|export)",
+          "severity": "medium",
+          "description": "嵌入向量泄露"
+        },
+        {
+          "id": "AA016",
+          "name": "Agent 劫持",
+          "pattern": "(agent|assistant|bot).*?(hijack|takeover|control)",
+          "severity": "critical",
+          "description": "Agent 劫持"
+        },
+        {
+          "id": "AA017",
+          "name": "工具滥用",
+          "pattern": "(tool|function|api).*?(abuse|exploit|bypass).*?(limit|check)",
+          "severity": "high",
+          "description": "工具滥用"
+        },
+        {
+          "id": "AA018",
+          "name": "递归调用",
+          "pattern": "(recursive|loop|iterate).*?(call|invoke|execute).*?(unlimited|infinite)",
+          "severity": "high",
+          "description": "递归调用攻击"
+        },
+        {
+          "id": "AA019",
+          "name": "资源耗尽",
+          "pattern": "(memory|cpu|disk).*?(exhaust|consume|fill).*?(all|maximum)",
+          "severity": "high",
+          "description": "资源耗尽攻击"
+        },
+        {
+          "id": "AA020",
+          "name": "输出劫持",
+          "pattern": "(output|response|result).*?(redirect|intercept|modify)",
+          "severity": "high",
+          "description": "输出劫持"
+        }
+      ]
+    },
+    "social_engineering": {
+      "name": "社会工程学",
+      "severity": "high",
+      "description": "检测社会工程学攻击",
+      "patterns": [
+        {
+          "id": "SE001",
+          "name": "钓鱼邮件模板",
+          "pattern": "(urgent|immediate|action required).*?(account|password|verify)",
+          "severity": "medium",
+          "description": "钓鱼邮件特征"
+        },
+        {
+          "id": "SE002",
+          "name": "假冒权威",
+          "pattern": "(IT\\s*department|security\\s*team|admin|support).*?(verify|confirm|update)",
+          "severity": "high",
+          "description": "假冒权威部门"
+        },
+        {
+          "id": "SE003",
+          "name": "紧急威胁",
+          "pattern": "(your account|security breach|suspended|locked).*?(immediately|within|24 hours)",
+          "severity": "high",
+          "description": "制造紧急威胁"
+        },
+        {
+          "id": "SE004",
+          "name": "奖励诱惑",
+          "pattern": "(you have won|congratulations|prize|reward).*?(claim|redeem)",
+          "severity": "medium",
+          "description": "奖励诱惑"
+        },
+        {
+          "id": "SE005",
+          "name": "恶意链接",
+          "pattern": "https?://[^\\s]*?(bit\\.ly|tinyurl|goo\\.gl|t\\.co).*?(login|verify|update)",
+          "severity": "high",
+          "description": "短链接钓鱼"
+        },
+        {
+          "id": "SE006",
+          "name": "同形异义字",
+          "pattern": "(xn--|\\u00[0-9a-f]{2}).*?(paypal|google|amazon|microsoft)",
+          "severity": "high",
+          "description": "同形异义字攻击"
+        },
+        {
+          "id": "SE007",
+          "name": "子域名欺骗",
+          "pattern": "https?://[^@\\s]*?@[^\\s]*?(paypal|google|amazon)",
+          "severity": "medium",
+          "description": "子域名欺骗"
+        },
+        {
+          "id": "SE008",
+          "name": "二维码钓鱼",
+          "pattern": "(qr code|qrcode|scan this).*?(login|payment|verify)",
+          "severity": "medium",
+          "description": "二维码钓鱼"
+        },
+        {
+          "id": "SE009",
+          "name": "语音钓鱼",
+          "pattern": "(voice message|voicemail|call recording).*?(click|download|listen)",
+          "severity": "medium",
+          "description": "语音钓鱼"
+        },
+        {
+          "id": "SE010",
+          "name": "短信钓鱼",
+          "pattern": "(sms|text message|delivery).*?(track|claim|verify).*?(link|url)",
+          "severity": "medium",
+          "description": "短信钓鱼"
+        },
+        {
+          "id": "SE011",
+          "name": "假冒客服",
+          "pattern": "(customer service|support|help desk).*?(call|contact).*?(800|400|+1)",
+          "severity": "medium",
+          "description": "假冒客服"
+        },
+        {
+          "id": "SE012",
+          "name": "招聘诈骗",
+          "pattern": "(job offer|position|hiring).*?(personal information|bank account|upfront)",
+          "severity": "medium",
+          "description": "招聘诈骗"
+        },
+        {
+          "id": "SE013",
+          "name": "投资诈骗",
+          "pattern": "(investment|crypto|forex).*?(guaranteed|high return|risk free)",
+          "severity": "high",
+          "description": "投资诈骗"
+        },
+        {
+          "id": "SE014",
+          "name": "浪漫诈骗",
+          "pattern": "(love|relationship|dating).*?(money|gift|emergency)",
+          "severity": "medium",
+          "description": "浪漫诈骗"
+        },
+        {
+          "id": "SE015",
+          "name": "技术支持诈骗",
+          "pattern": "(microsoft|apple|google).*?(virus|malware|infected).*?(call|support)",
+          "severity": "high",
+          "description": "技术支持诈骗"
+        }
+      ]
+    },
+    "ransomware": {
+      "name": "勒索软件",
+      "severity": "critical",
+      "description": "检测勒索软件行为",
+      "patterns": [
+        {
+          "id": "RS001",
+          "name": "批量加密",
+          "pattern": "for.*?in.*?\\.(doc|pdf|xls|jpg|png|mp4).*?encrypt|cipher",
+          "severity": "critical",
+          "description": "批量加密文件"
+        },
+        {
+          "id": "RS002",
+          "name": "删除备份",
+          "pattern": "(vssadmin|wbadmin).*?(delete|shadow).*?(shadow|backup)",
+          "severity": "critical",
+          "description": "删除卷影备份"
+        },
+        {
+          "id": "RS003",
+          "name": "禁用恢复",
+          "pattern": "(bcdedit|recovery).*?(disabled|no).*?(recovery|safeboot)",
+          "severity": "critical",
+          "description": "禁用系统恢复"
+        },
+        {
+          "id": "RS004",
+          "name": "勒索信",
+          "pattern": "(decrypt|ransom|bitcoin|wallet).*?(instruction|readme|how to)",
+          "severity": "critical",
+          "description": "勒索信特征"
+        },
+        {
+          "id": "RS005",
+          "name": "文件扩展名修改",
+          "pattern": "rename.*?\\.[a-z]+.*?\\.(encrypted|locked|crypto|ransom)",
+          "severity": "critical",
+          "description": "修改文件扩展名"
+        },
+        {
+          "id": "RS006",
+          "name": "Tor 连接",
+          "pattern": "(torproject|onion).*?(download|install|connect)",
+          "severity": "high",
+          "description": "Tor 网络连接"
+        },
+        {
+          "id": "RS007",
+          "name": "加密货币钱包",
+          "pattern": "(bitcoin|monero|ethereum).*?(wallet|address|payment)",
+          "severity": "high",
+          "description": "加密货币支付"
+        },
+        {
+          "id": "RS008",
+          "name": "进程终止",
+          "pattern": "(taskkill|kill).*?(antivirus|defender|security|backup)",
+          "severity": "critical",
+          "description": "终止安全进程"
+        },
+        {
+          "id": "RS009",
+          "name": "服务禁用",
+          "pattern": "sc\\s+config.*?(antivirus|defender|security).*?disabled",
+          "severity": "critical",
+          "description": "禁用安全服务"
+        },
+        {
+          "id": "RS010",
+          "name": "防火墙规则",
+          "pattern": "netsh\\s+advfirewall.*?(block|disable).*?(outbound|inbound)",
+          "severity": "high",
+          "description": "修改防火墙规则"
+        },
+        {
+          "id": "RS011",
+          "name": "计划任务持久化",
+          "pattern": "schtasks.*?(create|/ru).*?(SYSTEM|Administrator)",
+          "severity": "high",
+          "description": "计划任务持久化"
+        },
+        {
+          "id": "RS012",
+          "name": "注册表自启",
+          "pattern": "reg.*?(CurrentVersion\\\\Run|RunOnce).*?(add|set)",
+          "severity": "high",
+          "description": "注册表自启动"
+        },
+        {
+          "id": "RS013",
+          "name": "WMI 持久化",
+          "pattern": "wmic.*?(process|startup).*?(create|call)",
+          "severity": "high",
+          "description": "WMI 持久化"
+        },
+        {
+          "id": "RS014",
+          "name": "网络共享传播",
+          "pattern": "net\\s+use.*?\\\\\\\\.*?\\$.*?(admin|ipc)",
+          "severity": "high",
+          "description": "网络共享传播"
+        },
+        {
+          "id": "RS015",
+          "name": "PsExec 执行",
+          "pattern": "psexec.*?(\\\\\\\\|accepteula).*?(cmd|powershell)",
+          "severity": "high",
+          "description": "PsExec 远程执行"
+        },
+        {
+          "id": "RS016",
+          "name": "加密库调用",
+          "pattern": "(CryptoAPI|OpenSSL|libsodium).*?(EncryptFile|encrypt.*?AES|RSA)",
+          "severity": "critical",
+          "description": "加密库调用"
+        },
+        {
+          "id": "RS017",
+          "name": "MBR 覆盖",
+          "pattern": "(dd|write).*?(/dev/sda|MBR|boot sector)",
+          "severity": "critical",
+          "description": "MBR 覆盖"
+        },
+        {
+          "id": "RS018",
+          "name": "文件删除",
+          "pattern": "(del|rm|rmdir).*?(/s|/q|-rf).*?\\..*?(doc|xls|pdf)",
+          "severity": "critical",
+          "description": "删除原始文件"
+        },
+        {
+          "id": "RS019",
+          "name": "网络隔离",
+          "pattern": "(ipconfig|netsh).*?(release|disable|flush)",
+          "severity": "medium",
+          "description": "网络隔离"
+        },
+        {
+          "id": "RS020",
+          "name": "事件日志清除",
+          "pattern": "(wevtutil|Clear-EventLog).*?(Security|System|Application)",
+          "severity": "critical",
+          "description": "清除事件日志"
+        }
+      ]
+    },
+    "spyware": {
+      "name": "间谍软件",
+      "severity": "critical",
+      "description": "检测间谍软件行为",
+      "patterns": [
+        {
+          "id": "SP001",
+          "name": "键盘记录",
+          "pattern": "(GetAsyncKeyState|SetWindowsHookEx|keylog|keystroke)",
+          "severity": "critical",
+          "description": "键盘记录"
+        },
+        {
+          "id": "SP002",
+          "name": "屏幕截图",
+          "pattern": "(BitBlt|GetDC|PrintScreen|screenshot|capture).*?(loop|interval|timer)",
+          "severity": "high",
+          "description": "定时截图"
+        },
+        {
+          "id": "SP003",
+          "name": "麦克风监听",
+          "pattern": "(AudioCapture|RecordAudio|Microphone|pyaudio).*?(start|stream|read)",
+          "severity": "critical",
+          "description": "麦克风监听"
+        },
+        {
+          "id": "SP004",
+          "name": "摄像头访问",
+          "pattern": "(webcam|camera|video_capture|OpenCV).*?(read|capture|stream)",
+          "severity": "critical",
+          "description": "摄像头访问"
+        },
+        {
+          "id": "SP005",
+          "name": "剪贴板监控",
+          "pattern": "(GetClipboardData|clipboard.*?watch|clip).*?(password|crypto|wallet)",
+          "severity": "high",
+          "description": "剪贴板监控"
+        },
+        {
+          "id": "SP006",
+          "name": "浏览器历史",
+          "pattern": "(History|Cookies|Cache).*?(Chrome|Firefox|Safari|Edge).*?(read|extract)",
+          "severity": "high",
+          "description": "浏览器历史窃取"
+        },
+        {
+          "id": "SP007",
+          "name": "Wi-Fi 密码",
+          "pattern": "(netsh.*?wlan.*?show.*?profile|Key\\s*Content)",
+          "severity": "critical",
+          "description": "Wi-Fi 密码窃取"
+        },
+        {
+          "id": "SP008",
+          "name": "进程枚举",
+          "pattern": "(EnumProcesses|CreateToolhelp32Snapshot|psutil).*?(process|exe)",
+          "severity": "medium",
+          "description": "进程枚举"
+        },
+        {
+          "id": "SP009",
+          "name": "窗口枚举",
+          "pattern": "(EnumWindows|GetWindowText|FindWindow).*?(title|class)",
+          "severity": "medium",
+          "description": "窗口枚举"
+        },
+        {
+          "id": "SP010",
+          "name": "文件监控",
+          "pattern": "(ReadDirectoryChangesW|inotify|FileSystemWatcher).*?(watch|monitor)",
+          "severity": "medium",
+          "description": "文件监控"
+        },
+        {
+          "id": "SP011",
+          "name": "网络流量嗅探",
+          "pattern": "(pcap|libpcap|WinPcap|scapy).*?(sniff|capture|packet)",
+          "severity": "high",
+          "description": "网络嗅探"
+        },
+        {
+          "id": "SP012",
+          "name": "凭据转储",
+          "pattern": "(mimikatz|sekurlsa|lsass|credential).*?(dump|extract|steal)",
+          "severity": "critical",
+          "description": "凭据转储"
+        },
+        {
+          "id": "SP013",
+          "name": "浏览器凭据",
+          "pattern": "(Login\\s*Data|logins\\.json|key4\\.db).*?(Chrome|Firefox)",
+          "severity": "critical",
+          "description": "浏览器凭据窃取"
+        },
+        {
+          "id": "SP014",
+          "name": "邮件客户端",
+          "pattern": "(Outlook|Thunderbird).*?(pst|ost|inbox).*?(read|export)",
+          "severity": "high",
+          "description": "邮件客户端访问"
+        },
+        {
+          "id": "SP015",
+          "name": "即时通讯",
+          "pattern": "(WeChat|WhatsApp|Telegram|Signal).*?(message|chat|history).*?(extract|read)",
+          "severity": "high",
+          "description": "即时通讯监控"
+        },
+        {
+          "id": "SP016",
+          "name": "远程控制",
+          "pattern": "(C2|command.*?control|beacon|callback).*?(server|domain)",
+          "severity": "critical",
+          "description": "远程控制"
+        },
+        {
+          "id": "SP017",
+          "name": "DNS 隧道",
+          "pattern": "(DNS|TXT|NULL).*?(tunnel|exfil|encode).*?(query|request)",
+          "severity": "high",
+          "description": "DNS 隧道"
+        },
+        {
+          "id": "SP018",
+          "name": "ICMP 隧道",
+          "pattern": "(ICMP|ping).*?(tunnel|payload|data).*?(send|receive)",
+          "severity": "medium",
+          "description": "ICMP 隧道"
+        },
+        {
+          "id": "SP019",
+          "name": "HTTP 隧道",
+          "pattern": "(HTTP|HTTPS).*?(tunnel|proxy|socks).*?(connect|create)",
+          "severity": "high",
+          "description": "HTTP 隧道"
+        },
+        {
+          "id": "SP020",
+          "name": "启动持久化",
+          "pattern": "(Startup|AutoRun|LaunchAgent|cron).*?(create|add|install)",
+          "severity": "high",
+          "description": "启动持久化"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "total_patterns": 200,
+    "critical_count": 52,
+    "high_count": 78,
+    "medium_count": 55,
+    "low_count": 15,
+    "categories_count": 10,
+    "last_updated": "2026-03-27",
+    "source": "ClawDef Security Team",
+    "references": [
+      "https://github.com/Yara-Rules/rules",
+      "https://github.com/Neo23x0/signature-base",
+      "https://attack.mitre.org/"
+    ]
+  }
+}
